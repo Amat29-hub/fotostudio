@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+//Route User
 Route::get('/', function () {
-    return view('welcome');
+    return view('page.frontend.home.index');
 });
