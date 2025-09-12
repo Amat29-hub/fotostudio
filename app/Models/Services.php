@@ -9,6 +9,12 @@ class Services extends Model
 {
     use HasFactory;
 
-    protected $table = 'services';
-    protected $guarded = [];
+    protected $table = 'services'; // nama tabel di database
+
+    protected $fillable = [
+        'title',
+        'description',
+        'photo',
+        'is_active',
+    ];
 }
