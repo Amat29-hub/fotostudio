@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AboutUs extends Model
+class Aboutus extends Model
 {
     use HasFactory;
 
-    protected $table = 'aboutus';
-    protected $guarded = [];
+    protected $table = 'aboutus'; // nama tabel di database
+
+    protected $fillable = [
+        'description',
+        'photo',
+        'is_active',
+    ];
 }

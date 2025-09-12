@@ -10,5 +10,11 @@ class Sejarah extends Model
     use HasFactory;
 
     protected $table = 'sejarah';
-    protected $guarded = [];
+
+    protected $fillable = [
+        'photo',
+        'title',
+        'description',
+        'is_active',
+    ];
 }

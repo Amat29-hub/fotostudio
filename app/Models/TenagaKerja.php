@@ -10,5 +10,12 @@ class TenagaKerja extends Model
     use HasFactory;
 
     protected $table = 'tenagakerja';
-    protected $guarded = [];
+
+    protected $fillable = [
+        'photo',
+        'name',
+        'description',
+        'position',
+        'is_active',
+    ];
 }
