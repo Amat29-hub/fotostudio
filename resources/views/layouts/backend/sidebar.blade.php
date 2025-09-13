@@ -77,16 +77,16 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/adminpanel/contactus">
               <i class="menu-icon"></i>
               <span class="menu-title">Contact Us</span>
             </a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/adminpanel/mediasocial">
               <i class="menu-icon"></i>
-              <span class="menu-title">Partners</span>
+              <span class="menu-title">Media Social</span>
             </a>
           </li>
 
@@ -105,15 +105,15 @@
           <div class="row">
 
 <script>
-  // Ambil URL path aktif (tanpa query string)
+  // Ambil URL path aktif
   const currentPath = window.location.pathname;
 
   // Loop semua link nav di sidebar
   document.querySelectorAll('#sidebar .nav-link').forEach(link => {
     let linkPath = link.getAttribute('href');
 
-    // Jika link sama dengan path aktif → kasih class active
-    if (linkPath === currentPath) {
+    // Cek apakah currentPath diawali dengan linkPath
+    if (currentPath.startsWith(linkPath)) {
       link.classList.add('active');
       link.closest('.nav-item').classList.add('active');
     }
