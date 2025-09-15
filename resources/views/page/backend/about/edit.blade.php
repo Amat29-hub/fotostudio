@@ -34,7 +34,7 @@
 
             {{-- Tombol --}}
             <div class="d-flex justify-content-start mt-4">
-              <button type="submit" class="btn btn-success me-2 px-4 py-2" style="background-color:#21BF06;">Simpan</button>
+              <button type="submit" class="btn btn-success me-2 px-4 py-2" style="background-color:#21BF06; margin-right:30px;">Simpan</button>
               <a href="{{ route('about.index') }}" class="btn btn-primary px-4 py-2" style="background-color:#0C8CE9;">Kembali</a>
             </div>
           </form>

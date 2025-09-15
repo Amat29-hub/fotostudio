@@ -33,7 +33,7 @@
 
             {{-- Buttons --}}
             <div class="d-flex gap-2">
-              <button type="submit" class="btn text-white px-4" style="background-color:#21BF06;">Tambah</button>
+              <button type="submit" class="btn text-white px-4" style="background-color:#21BF06; margin-right:30px;">Tambah</button>
               <a href="{{ route('gallery.index') }}" class="btn text-white px-4" style="background-color:#0C8CE9;">Kembali</a>
             </div>
           </form>

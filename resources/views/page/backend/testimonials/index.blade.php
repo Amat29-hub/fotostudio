@@ -42,8 +42,22 @@
 
                   {{-- Rating --}}
                   <td class="text-start py-3">
-                    <div>{{ $testimonial->rating }}%</div>
+                    @php
+                        // Konversi persen ke skala 1-5
+                        $stars = round($testimonial->rating / 20); // 100% / 20 = 5 bintang
+                    @endphp
+                  
+                    <div>
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $stars)
+                                <i class="ti-star text-warning"></i> {{-- Bintang terisi --}}
+                            @else
+                                <i class="ti-star text-secondary"></i> {{-- Bintang kosong --}}
+                            @endif
+                        @endfor
+                    </div>
                   </td>
+
 
                   {{-- Options --}}
                   <td class="text-center py-3">

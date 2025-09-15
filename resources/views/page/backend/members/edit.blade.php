@@ -43,7 +43,7 @@
             </div>
 
             <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-success px-4" style="background-color:#21BF06;">Simpan</button>
+              <button type="submit" class="btn btn-success px-4" style="background-color:#21BF06; margin-right:30px;">Simpan</button>
               <a href="{{ route('members.index') }}" class="btn btn-primary px-4" style="background-color:#0C8CE9;">Kembali</a>
             </div>
           </form>

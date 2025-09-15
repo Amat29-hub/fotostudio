@@ -41,24 +41,12 @@
                   <td class="text-center py-3">
                     <div class="d-flex flex-column align-items-center">
                       <div class="mb-2">
-                        {{-- Edit --}}
-                        <a href="{{ route('contactus.edit', $item->id) }}"
-                           class="btn text-white btn-sm px-3 me-1"
-                           style="background-color:#21BF06;">
-                          <i class="ti-pencil"></i> Edit
+                        {{-- Detail --}}
+                        <a href="{{ route('contactus.show', $item->id) }}"
+                           class="btn text-white btn-sm px-3"
+                           style="background-color:#0d6efd;">
+                          <i class="ti-eye"></i> Detail
                         </a>
-
-                        {{-- Delete --}}
-                        <form action="{{ route('contactus.destroy', $item->id) }}" method="POST" style="display:inline">
-                          @csrf
-                          @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
-                            <i class="ti-trash"></i> Delete
-                          </button>
-                        </form>
                       </div>
 
                       {{-- Toggle --}}
@@ -74,15 +62,6 @@
                 @endforeach
               </tbody>
             </table>
-          </div>
-
-          {{-- Create New Button --}}
-          <div class="text-center mt-4">
-            <a href="{{ route('contactus.create') }}"
-               class="btn text-white px-4"
-               style="background-color:#21BF06;">
-              <i class="ti-plus"></i> Create New
-            </a>
           </div>
 
         </div>
