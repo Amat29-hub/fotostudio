@@ -25,11 +25,12 @@ class TestimonialController extends Controller
         $request->validate([
             'name'          => 'required|string|max:255',
             'description'   => 'required|string',
-            'rating'        => 'required|integer|min:0|max:100',
+            'rating'        => 'required|integer|min:1|max:5', // ⭐ bintang 1–5
             'photo_profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only('name', 'description', 'rating');
+        $data = $request->only('name', 'description');
+        $data['rating'] = $request->rating * 20; // konversi bintang → persen
 
         if ($request->hasFile('photo_profile')) {
             $data['photo_profile'] = $request->file('photo_profile')->store('testimonials', 'public');
@@ -55,11 +56,12 @@ class TestimonialController extends Controller
         $request->validate([
             'name'          => 'required|string|max:255',
             'description'   => 'required|string',
-            'rating'        => 'required|integer|min:0|max:100',
+            'rating'        => 'required|integer|min:1|max:5', // ⭐ bintang 1–5
             'photo_profile' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only('name', 'description', 'rating');
+        $data = $request->only('name', 'description');
+        $data['rating'] = $request->rating * 20; // konversi bintang → persen
 
         if ($request->hasFile('photo_profile')) {
             if ($testimonial->photo_profile && Storage::disk('public')->exists($testimonial->photo_profile)) {
@@ -87,16 +89,15 @@ class TestimonialController extends Controller
     }
 
     public function toggleStatus(Request $request, $id)
-{
-    $testimonial = Testimonial::findOrFail($id);
+    {
+        $testimonial = Testimonial::findOrFail($id);
 
-    $testimonial->is_active = $request->input('is_active', 0);
-    $testimonial->save();
+        $testimonial->is_active = $request->input('is_active', 0);
+        $testimonial->save();
 
-    return response()->json([
-        'success' => true,
-        'status' => $testimonial->is_active
-    ]);
-}
-
+        return response()->json([
+            'success' => true,
+            'status' => $testimonial->is_active
+        ]);
+    }
 }

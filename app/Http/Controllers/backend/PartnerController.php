@@ -104,14 +104,16 @@ class PartnerController extends Controller
     /**
      * Toggle status aktif / non-aktif.
      */
-    public function toggleStatus(Request $request, Partner $partner)
-    {
-        $partner->is_active = !$partner->is_active;
-        $partner->save();
+    public function toggleStatus(Request $request, $id)
+{
+    $partner = Partner::findOrFail($id);
+    $partner->is_active = !$partner->is_active;
+    $partner->save();
 
-        return response()->json([
-            'success' => true,
-            'status' => $partner->is_active,
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'status' => $partner->is_active,
+    ]);
+}
+
 }
