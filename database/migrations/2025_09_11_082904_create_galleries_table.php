@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('photo')->nullable(); // Lokasi foto
             $table->string('title'); // Judul gallery
             $table->text('description')->nullable(); // Deskripsi gallery
-            $table->boolean('is_active')->default(true); // Status aktif/tidak
+            $table->boolean('is_active')->default(0); // Status aktif/tidak
             $table->timestamps();
         });
     }

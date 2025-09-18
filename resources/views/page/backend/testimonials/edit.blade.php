@@ -34,21 +34,16 @@
               <label class="form-label">Rating</label>
 
               {{-- Hidden input untuk simpan nilai rating --}}
-              <input type="hidden" name="rating" id="rating" value="{{ round($testimonial->rating / 20) }}">
+              <input type="hidden" name="rating" id="rating" value="{{ $testimonial->rating }}">
 
               {{-- Pilihan Bintang --}}
               <div id="starSelector">
-                  @php
-                      $stars = round($testimonial->rating / 20);
-                  @endphp
                   @for ($i = 1; $i <= 5; $i++)
-                      <i class="ti-star {{ $i <= $stars ? 'text-warning' : 'text-secondary' }} fs-3 star"
+                      <i class="ti-star {{ $i <= $testimonial->rating ? 'text-warning' : 'text-secondary' }} fs-3 star"
                          data-value="{{ $i }}" style="cursor:pointer;"></i>
                   @endfor
               </div>
             </div>
-
-
 
             {{-- Photo Profile --}}
             <div class="mb-4">
@@ -102,6 +97,5 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 </script>
-
 
 @endsection

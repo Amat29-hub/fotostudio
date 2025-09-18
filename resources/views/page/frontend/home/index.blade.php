@@ -14,29 +14,37 @@
     <div class="container-fluid p-0 hero-header bg-light mb-5">
         <div class="container p-0">
             <div class="row g-0 align-items-center">
-                <div class="col-lg-6 hero-header-text py-5">
-                    <div class="py-5 px-3 ps-lg-0">
-                        <h1 class="font-dancing-script animated slideInLeft" style="color:#008080;">Welcome</h1>
-                        <h1 class="display-1 mb-4 animated slideInLeft">Fotografi Kenangan Vintage</h1>
-                        <div class="row g-4 animated slideInLeft">
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center">
-                                </div>
-                            </div>
+
+                {{-- Tampilkan hanya jika ada data --}}
+                @if($heroes->count() > 0)
+                    <div class="col-lg-6 hero-header-text py-5">
+                        <div class="py-5 px-3 ps-lg-0">
+
+                            {{-- Welcome selalu tampil kalau ada hero --}}
+                            <h1 class="font-dancing-script animated slideInLeft" style="color:#008080;">Welcome</h1>
+
+                            {{-- Judul dari database --}}
+                            @foreach($heroes as $hero)
+                                <h1 class="display-1 mb-4 animated slideInLeft">
+                                    {{ $hero->title }}
+                                </h1>
+                            @endforeach
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="owl-carousel header-carousel animated fadeIn">
-                        <img class="img-fluid" src="img/hero-slider-1.jpg" alt="">
-                        <img class="img-fluid" src="img/hero-slider-2.jpg" alt="">
-                        <img class="img-fluid" src="img/hero-slider-3.jpg" alt="">
+
+                    <div class="col-lg-6">
+                        <div class="owl-carousel header-carousel animated fadeIn">
+                            @foreach($heroes as $hero)
+                                @if($hero->photo)
+                                    <div class="item">
+                                        <img class="img-fluid" src="{{ asset('storage/'.$hero->photo) }}" alt="{{ $hero->title }}">
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
         </div>
     </div>
@@ -45,13 +53,17 @@
 
     <!-- About Start -->
     <div class="container-fluid py-5">
-        <div class="container">
+         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
-                    <img class="img-fluid mb-3" src="img/about.jpg" alt="">
+                    {{-- Foto About (kosong kalau toggle off) --}}
+                    @if($about && $about->photo)
+                        <img class="img-fluid mb-3" src="{{ asset('storage/'.$about->photo) }}" alt="About Us">
+                    @endif
+
+                    {{-- Kontak (statis, selalu tampil) --}}
                     <div class="d-flex align-items-center bg-light">
                         <div class="btn-square flex-shrink-0" style="width: 100px; height: 100px; background-color:#008080;">
-
                             <i class="fa fa-phone fa-2x text-dark"></i>
                         </div>
                         <div class="px-3">
@@ -60,15 +72,18 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    {{-- Title & Subtitle (statis, selalu tampil) --}}
                     <h1 class="font-dancing-script" style="color:#008080;">About Us</h1>
                     <h1 class="mb-5">Why People Choose Us!</h1>
-                    <p class="mb-4">Kebersamaan selalu lebih indah saat di abadikan
-                        dengan sentuhan fotografi grup yang hangat
-                        kami membantu anda menyimpan momen
-                        berharga bersama teman, sahabat, atau keluarga
-                        besar dalam satu potret penuh cerita
-                    </p>
+
+                    {{-- Deskripsi (kosong kalau toggle off) --}}
+                    @if($about && $about->description)
+                        <p class="mb-4">
+                            {{ $about->description }}
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -76,349 +91,251 @@
     <!-- About End -->
 
 
-    <!-- Service Start -->
-    <div class="container-fluid service py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="font-dancing-script" style="color:#008080;">Our Services</h1>
-                <h1 class="mb-5">Explore Our Services</h1>
-            </div>
-            <div class="row g-4 g-md-0 text-center">
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-end wow fadeIn" data-wow-delay="0.1s">
-                        <img class="img-fluid" src="img/haircut.png" alt="">
-                        <h3 class="mb-3">Haircut</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-lg-end wow fadeIn" data-wow-delay="0.3s">
-                        <img class="img-fluid" src="img/makeup.png" alt="">
-                        <h3 class="mb-3">Makeup</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-end border-lg-end-0 wow fadeIn"
-                        data-wow-delay="0.5s">
-                        <img class="img-fluid" src="img/manicure.png" alt="">
-                        <h3 class="mb-3">Manicure</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase my-2" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-lg-bottom-0 border-lg-end wow fadeIn"
-                        data-wow-delay="0.1s">
-                        <img class="img-fluid" src="img/pedicure.png" alt="">
-                        <h3 class="mb-3">Pedicure</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-end wow fadeIn" data-wow-delay="0.3s">
-                        <img class="img-fluid" src="img/massage.png" alt="">
-                        <h3 class="mb-3">Massage</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 wow fadeIn" data-wow-delay="0.5s">
-                        <img class="img-fluid" src="img/skin-care.png" alt="">
-                        <h3 class="mb-3">Skin Care</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Service Start -->
+<div class="container-fluid service py-5">
+  <div class="container">
+    <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+      <h1 class="font-dancing-script" style="color:#008080;">Our Services</h1>
+      <h1 class="mb-5">Explore Our Services</h1>
     </div>
-    <!-- Service End -->
+
+    <div class="row g-0 text-center">
+      @foreach($services as $service)
+        <div class="col-md-6 col-lg-4">
+          <div class="p-4 border-end border-bottom">
+            {{-- Foto --}}
+            <img class="img-fluid mb-3"
+                 src="{{ asset('storage/'.$service->photo) }}"
+                 alt="{{ $service->title }}">
+
+            {{-- Judul --}}
+            <h5>{{ $service->title }}</h5>
+
+            {{-- Deskripsi --}}
+            <p>{{ $service->description }}</p>
+          </div>
+        </div>
+      @endforeach
+    </div>
+  </div>
+</div>
+<!-- Service End -->
+
 
 
 
 
     <!-- Gallery Start -->
     <div class="container-fluid gallery py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-                <h1 class="font-dancing-script" style="color:#008080;">Gallery</h1>
-                <h1 class="mb-5">Explore Our Gallery</h1>
-            </div>
-            <div class="row g-0">
-                <div class="col-md-6 wow fadeIn" data-wow-delay="0.2s">
-                    <div class="gallery-item h-100">
-                        <img src="img/gallery-1.jpg" class="img-fluid w-100 h-100" alt="">
-                        <div class="gallery-icon">
-                            <a href="img/gallery-1.jpg" class="btn btn-primary btn-lg-square"
-                                data-lightbox="Gallery-1"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 wow fadeIn" data-wow-delay="0.4s">
-                    <div class="gallery-item h-100">
-                        <img src="img/gallery-2.jpg" class="img-fluid w-100 h-100" alt="">
-                        <div class="gallery-icon">
-                            <a href="img/gallery-2.jpg" class="btn btn-primary btn-lg-square"
-                                data-lightbox="Gallery-2"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 wow fadeIn" data-wow-delay="0.6s">
-                    <div class="gallery-item h-100">
-                        <img src="img/gallery-3.jpg" class="img-fluid w-100 h-100" alt="">
-                        <div class="gallery-icon">
-                            <a href="img/gallery-3.jpg" class="btn btn-primary btn-lg-square"
-                                data-lightbox="Gallery-3"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 wow fadeIn" data-wow-delay="0.2s">
-                    <div class="gallery-item h-100">
-                        <img src="img/gallery-4.jpg" class="img-fluid w-100 h-100" alt="">
-                        <div class="gallery-icon">
-                            <a href="img/gallery-4.jpg" class="btn btn-primary btn-lg-square"
-                                data-lightbox="Gallery-4"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 wow fadeIn" data-wow-delay="0.4s">
-                    <div class="gallery-item h-100">
-                        <img src="img/gallery-5.jpg" class="img-fluid w-100 h-100" alt="">
-                        <div class="gallery-icon">
-                            <a href="img/gallery-5.jpg" class="btn btn-primary btn-lg-square"
-                                data-lightbox="Gallery-5"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 wow fadeIn" data-wow-delay="0.6s">
-                    <div class="gallery-item h-100">
-                        <img src="img/gallery-6.jpg" class="img-fluid w-100 h-100" alt="">
-                        <div class="gallery-icon">
-                            <a href="img/gallery-6.jpg" class="btn btn-primary btn-lg-square"
-                                data-lightbox="Gallery-6"><i class="fa fa-eye"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+       <div class="container">
+           <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+               <h1 class="font-dancing-script" style="color:#008080;">Gallery</h1>
+               <h1 class="mb-5">Explore Our Gallery</h1>
+           </div>
+
+           {{-- Masonry Grid --}}
+           <div class="row" data-masonry='{"percentPosition": true }'>
+               @foreach($galleries as $gallery)
+                   <div class="col-sm-6 col-md-4 mb-4">
+                       <div class="card border-0 shadow-sm">
+                           {{-- Foto --}}
+                           <div class="gallery-item position-relative">
+                               <img src="{{ asset('storage/'.$gallery->photo) }}"
+                                    class="card-img-top"
+                                    alt="{{ $gallery->title }}">
+
+                               {{-- Zoom Icon --}}
+                               <div class="gallery-icon">
+                                   <a href="{{ asset('storage/'.$gallery->photo) }}"
+                                      class="btn btn-lg-square"
+                                      style="background-color:#008080; border-color:#008080;"
+                                      data-lightbox="Gallery-{{ $gallery->id }}">
+                                      <i class="fa fa-eye"></i>
+                                   </a>
+                               </div>
+                           </div>
+
+                           {{-- Title & Description --}}
+                           <div class="card-body text-center">
+                               <h5 class="card-title">{{ $gallery->title }}</h5>
+                               <p class="card-text text-muted small">{{ $gallery->description }}</p>
+                           </div>
+                       </div>
+                   </div>
+               @endforeach
+           </div>
+       </div>
     </div>
     <!-- Gallery End -->
 
 
- <!-- Team Start -->
-    <div class="container-fluid overflow-hidden py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-                <h1 class="font-dancing-script" style="color:#008080;">Team Members</h1>
-                <h1 class="mb-5">Our Experienced Specialists</h1>
-            </div>
-            <div class="row g-4 team justify-content-center">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Hair Specialist</p>
-                            <h4>Lily Taylor</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Nail Designer</p>
-                            <h4>Olivia Smith</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Beauty Specialist</p>
-                            <h4>Ava Brown</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Team Start -->
+<div class="container-fluid overflow-hidden py-5">
+    <div class="container">
+        {{-- Judul SELALU tampil --}}
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script" style="color:#008080;">Team Members</h1>
+            <h1 class="mb-5">Our Experienced Specialists</h1>
         </div>
+
+        {{-- Bagian Team Members --}}
+        @if($tenagakerjas->count() > 0)
+            <div class="row g-4 team justify-content-center">
+                @foreach ($tenagakerjas as $index => $team)
+                    <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.1 + ($index * 0.2) }}s">
+                        <div class="team-item position-relative overflow-hidden">
+                            {{-- Foto --}}
+                            @if($team->photo)
+                                <img class="img-fluid w-100" src="{{ asset('storage/'.$team->photo) }}" alt="{{ $team->name }}">
+                            @endif
+
+                            {{-- Overlay --}}
+                            <div class="team-overlay text-center p-3">
+                                @if($team->position)
+                                    <p class="text-primary mb-1">{{ $team->position }}</p>
+                                @endif
+                                @if($team->name)
+                                    <h4>{{ $team->name }}</h4>
+                                @endif
+                                @if($team->description)
+                                    <small class="text-secondary">{{ $team->description }}</small>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
-    <!-- Team End -->
+</div>
+<!-- Team End -->
+
 
 
  <!-- Partner Start -->
-    <div class="container-fluid overflow-hidden py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-                <h1 class="font-dancing-script" style="color:#008080;">Partners</h1>
-                <h1 class="mb-5">Our Partner</h1>
-            </div>
-            <div class="row g-4 team justify-content-center">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Nail Designer</p>
-                            <h4>Olivia Smith</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Beauty Specialist</p>
-                            <h4>Ava Brown</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-4.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Spa Specialist</p>
-                            <h4>Amelia Jones</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="container-fluid overflow-hidden py-5">
+    <div class="container">
+        {{-- Judul SELALU tampil --}}
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script" style="color:#008080;">Partners</h1>
+            <h1 class="mb-5">Our Partner</h1>
         </div>
+
+        {{-- Bagian Partner --}}
+        @if($partners->count() > 0)
+            <div class="row g-4 team justify-content-center">
+                @foreach ($partners as $index => $partner)
+                    <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.3 + ($index * 0.2) }}s">
+                        <div class="team-item position-relative overflow-hidden">
+                            {{-- Foto --}}
+                            @if($partner->photo)
+                                <img class="img-fluid w-100" src="{{ asset('storage/'.$partner->photo) }}" alt="{{ $partner->name }}">
+                            @endif
+
+                            {{-- Overlay --}}
+                            <div class="team-overlay text-center p-3">
+                                @if($partner->name)
+                                    <h4>{{ $partner->name }}</h4>
+                                @endif
+                                @if($partner->description)
+                                    <p class="text-secondary mb-0">{{ $partner->description }}</p>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
-    <!-- Partner End -->
+</div>
+<!-- Partner End -->
 
 
     <!-- Testimonial Start -->
-    <div class="container-fluid py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-                <h1 class="font-dancing-script" style="color:#008080;">Testimonial</h1>
-                <h1 class="mb-5">What Clients Say!</h1>
-            </div>
-            <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.3s">
+<div class="container-fluid py-5">
+    <div class="container">
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script" style="color:#008080;">Testimonial</h1>
+            <h1 class="mb-5">What Clients Say!</h1>
+        </div>
+
+        <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.3s">
+            @foreach($testimonials as $item)
                 <div class="text-center bg-light p-4">
                     <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-1.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
+
+                    {{-- Deskripsi --}}
+                    <p>{{ $item->description }}</p>
+
+                    {{-- Foto --}}
+                    <img class="img-fluid mx-auto border p-1 mb-3"
+                         src="{{ asset('storage/'.$item->photo_profile) }}"
+                         alt="{{ $item->name }}"
+                         style="width:100px; height:100px; border-radius:50%; object-fit:cover;">
+
+                    {{-- Nama --}}
+                    <h4 class="mb-1">{{ $item->name }}</h4>
+
+                    {{-- Rating bintang --}}
+                    <div>
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $item->rating)
+                                <i class="fa fa-star text-warning"></i>
+                            @else
+                                <i class="fa fa-star text-secondary"></i>
+                            @endif
+                        @endfor
+                    </div>
                 </div>
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-2.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-3.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-4.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
-    <!-- Testimonial End -->
+</div>
+<!-- Testimonial End -->
+
+
+<!-- Start Media Social -->
+<div class="container-fluid py-5" style="background-color: #f8f0f0;">
+    <div class="container">
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script" style="color:#008080;">Media Social</h1>
+            <h1 class="mb-5">Find Us on Social Media</h1>
+        </div>
+        <div class="row justify-content-center">
+            @foreach($mediasocials as $item)
+                <div class="col-lg-6 col-md-8 wow fadeIn mb-3" data-wow-delay="0.4s">
+                    <div class="d-flex align-items-center p-3 rounded-pill"
+                         style="background-color: #008080; color: white;">
+
+                        {{-- Foto --}}
+                        <img class="rounded-circle me-3"
+                             src="{{ asset('storage/'.$item->photo) }}"
+                             alt="{{ $item->name_account }}"
+                             style="width: 50px; height: 60px; object-fit: cover;">
+
+                        {{-- Nama akun (selalu tampil) --}}
+                        <div class="flex-grow-1">
+                            <i class="fab fa-{{ strtolower($item->name_mediasocial) }} me-2"></i>
+                            <span class="fs-5">{{ $item->name_account }}</span>
+                        </div>
+
+                        {{-- Tombol --}}
+                        <a href="{{ $item->link }}" class="btn rounded-pill px-4"
+                           style="background-color: #a8e6e3; border-color: #a8e6e3; color: #008080;"
+                           target="_blank">Kunjung!</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+<!-- End Media Social -->
+
 
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="background:#008080; border-color #008080"><i class="bi bi-arrow-up"></i></a>
 
 
     <!-- JavaScript Libraries -->

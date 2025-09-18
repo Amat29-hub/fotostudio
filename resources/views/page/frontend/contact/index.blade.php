@@ -10,8 +10,6 @@
     <!-- Spinner End -->
 
 
-
-
     <!-- Hero Start -->
     <div class="container-fluid bg-light page-header py-5 mb-5">
         <div class="container text-center py-5">
@@ -46,13 +44,13 @@
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="name" placeholder="Your Name">
-                                        <label for="name">Your Name</label>
+                                        <label for="name">First Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="email" class="form-control" id="email" placeholder="Your Email">
-                                        <label for="email">Your Email</label>
+                                        <label for="email">Last Name</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -65,7 +63,7 @@
                                     <div class="form-floating">
                                         <textarea class="form-control" placeholder="Leave a message here" id="message"
                                             style="height: 150px"></textarea>
-                                        <label for="message">Message</label>
+                                        <label for="message">Description</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -83,7 +81,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="background:#008080; border-color #008080"><i class="bi bi-arrow-up"></i></a>
 
 
     <!-- JavaScript Libraries -->

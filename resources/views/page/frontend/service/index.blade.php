@@ -29,77 +29,77 @@
 
     <!-- Service Start -->
     <div class="container-fluid service py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="font-dancing-script text-primary">Our Services</h1>
-                <h1 class="mb-5">Explore Our Services</h1>
-            </div>
-            <div class="row g-4 g-md-0 text-center">
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-end wow fadeIn" data-wow-delay="0.1s">
-                        <img class="img-fluid" src="img/haircut.png" alt="">
-                        <h3 class="mb-3">Haircut</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-lg-end wow fadeIn" data-wow-delay="0.3s">
-                        <img class="img-fluid" src="img/makeup.png" alt="">
-                        <h3 class="mb-3">Makeup</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-end border-lg-end-0 wow fadeIn"
-                        data-wow-delay="0.5s">
-                        <img class="img-fluid" src="img/manicure.png" alt="">
-                        <h3 class="mb-3">Manicure</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase my-2" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-bottom border-lg-bottom-0 border-lg-end wow fadeIn"
-                        data-wow-delay="0.1s">
-                        <img class="img-fluid" src="img/pedicure.png" alt="">
-                        <h3 class="mb-3">Pedicure</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 border-end wow fadeIn" data-wow-delay="0.3s">
-                        <img class="img-fluid" src="img/massage.png" alt="">
-                        <h3 class="mb-3">Massage</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="service-item h-100 p-4 wow fadeIn" data-wow-delay="0.5s">
-                        <img class="img-fluid" src="img/skin-care.png" alt="">
-                        <h3 class="mb-3">Skin Care</h3>
-                        <p class="mb-3">Clita erat ipsum et lorem et sit, sed stet no labore lorem sit clita duo justo
-                            et tempor eirmod magna dolore erat amet</p>
-                        <a class="btn btn-sm btn-primary text-uppercase" href="">Read More <i
-                                class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+     <div class="container">
+       <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+         <h1 class="font-dancing-script" style="color:#008080;">Our Services</h1>
+         <h1 class="mb-5">Explore Our Services</h1>
+       </div>
+
+       <div class="row g-0 text-center">
+
+         <!-- Service Item -->
+         <div class="col-md-6 col-lg-4">
+           <div class="p-4 border-end border-bottom">
+             <img class="img-fluid mb-3" src="img/selfphoto.jpg" alt="SelfPhoto">
+             <h5>SelfPhoto</h5>
+             <p>Lorem, deren, trataro, filede, nerada</p>
+             <h5 class="text-danger fw-bold">$12.95</h5>
+           </div>
+         </div>
+
+         <!-- Service Item -->
+         <div class="col-md-6 col-lg-4">
+           <div class="p-4 border-end border-bottom">
+             <img class="img-fluid mb-3" src="img/fotobook.jpg" alt="FotoBook">
+             <h5>FotoBook</h5>
+             <p>Lorem, deren, trataro, filede, nerada</p>
+             <h5 class="text-danger fw-bold">$13.00</h5>
+           </div>
+         </div>
+
+         <!-- Service Item -->
+         <div class="col-md-6 col-lg-4">
+           <div class="p-4 border-bottom">
+             <img class="img-fluid mb-3" src="img/wedding.jpg" alt="Wedding">
+             <h5>Wedding</h5>
+             <p>Lorem, deren, trataro, filede, nerada</p>
+             <h5 class="text-danger fw-bold">$50.00</h5>
+           </div>
+         </div>
+
+         <!-- Service Item -->
+         <div class="col-md-6 col-lg-4">
+           <div class="p-4 border-end">
+             <img class="img-fluid mb-3" src="img/prewedding.jpg" alt="Prewedding">
+             <h5>Prewedding</h5>
+             <p>Lorem, deren, trataro, filede, nerada</p>
+             <h5 class="text-danger fw-bold">$30.00</h5>
+           </div>
+         </div>
+
+         <!-- Service Item -->
+         <div class="col-md-6 col-lg-4">
+           <div class="p-4 border-end">
+             <img class="img-fluid mb-3" src="img/yearbook.jpg" alt="YearBook">
+             <h5>YearBook</h5>
+             <p>Lorem, deren, trataro, filede, nerada</p>
+             <h5 class="text-danger fw-bold">$20.00</h5>
+           </div>
+         </div>
+
+         <!-- Service Item -->
+         <div class="col-md-6 col-lg-4">
+           <div class="p-4">
+             <img class="img-fluid mb-3" src="img/rentalkamera.jpg" alt="Rental Kamera">
+             <h5>Rental Kamera</h5>
+             <p>Lorem, deren, trataro, filede, nerada</p>
+             <h5 class="text-danger fw-bold">$10.00</h5>
+           </div>
+         </div>
+
+       </div>
+     </div>
+       </div>
     <!-- Service End -->
 
 
@@ -151,7 +151,7 @@
 
 
     <!-- Back to Top -->
-    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="background:#008080; border-color #008080"><i class="bi bi-arrow-up"></i></a>
 
 
     <!-- JavaScript Libraries -->

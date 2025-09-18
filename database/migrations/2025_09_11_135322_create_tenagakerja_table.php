@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name'); // nama tenaga kerja
             $table->text('description')->nullable(); // deskripsi
             $table->string('position')->nullable(); // jabatan/posisi
-            $table->boolean('is_active')->default(true); // status aktif / non-aktif
+            $table->boolean('is_active')->default(0); // status aktif / non-aktif
             $table->timestamps(); // created_at & updated_at
         });
     }

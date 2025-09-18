@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('photo')->nullable(); // untuk menyimpan gambar
             $table->text('description')->nullable(); // deskripsi tentang kita
-            $table->boolean('is_active')->default(true); // status aktif / nonaktif
+            $table->boolean('is_active')->default(0); // status aktif / nonaktif
             $table->timestamps(); // created_at & updated_at
         });
     }

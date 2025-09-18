@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('photo')->nullable(); // path foto
             $table->string('title'); // judul
             $table->text('description'); // deskripsi
-            $table->boolean('is_active')->default(true); // status aktif/nonaktif
+            $table->boolean('is_active')->default(0); // status aktif/nonaktif
             $table->timestamps(); // created_at & updated_at
         });
     }

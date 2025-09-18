@@ -27,9 +27,19 @@
 
             {{-- Rating --}}
             <div class="mb-3">
-              <label class="form-label fw-bold">Rating (%)</label>
-              <input type="number" name="rating" class="form-control" required min="0" max="100"
-                placeholder="Masukkan rating (0-100)">
+              <label class="form-label fw-bold">Rating</label>
+
+              {{-- Hidden input untuk simpan nilai rating --}}
+              <input type="hidden" name="rating" id="rating" value="0">
+
+              {{-- Pilihan Bintang --}}
+              <div id="starSelector">
+                  @for ($i = 1; $i <= 5; $i++)
+                      <i class="ti-star text-secondary fs-3 star"
+                         data-value="{{ $i }}" style="cursor:pointer;"></i>
+                  @endfor
+              </div>
+              <small class="text-muted">Klik bintang untuk memilih rating (1–5)</small>
             </div>
 
             {{-- Photo Profile --}}
@@ -49,5 +59,30 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const stars = document.querySelectorAll("#starSelector .star");
+    const ratingInput = document.getElementById("rating");
+
+    stars.forEach(star => {
+        star.addEventListener("click", function() {
+            let value = this.getAttribute("data-value");
+            ratingInput.value = value; // simpan rating ke hidden input
+
+            // Update warna bintang
+            stars.forEach((s, index) => {
+                if (index < value) {
+                    s.classList.remove("text-secondary");
+                    s.classList.add("text-warning");
+                } else {
+                    s.classList.remove("text-warning");
+                    s.classList.add("text-secondary");
+                }
+            });
+        });
+    });
+});
+</script>
 
 @endsection

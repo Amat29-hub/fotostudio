@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\HeroController;
 use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Backend\AboutusController;
+use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\PartnerController;
 use App\Http\Controllers\Backend\SejarahController;
 use App\Http\Controllers\Backend\ServicesController;
@@ -12,19 +13,24 @@ use App\Http\Controllers\Backend\ContactUsController;
 use App\Http\Controllers\Backend\MediaSocialController;
 use App\Http\Controllers\Backend\TenagaKerjaController;
 use App\Http\Controllers\Backend\TestimonialController;
-use App\Http\Controllers\Backend\GalleryController;
+use App\Http\Controllers\Frontend\FrontendHomeController;
+use App\Http\Controllers\frontend\FrontendAboutController;
 use App\Http\Controllers\Backend\DashboardBackendController;
+use App\Http\Controllers\frontend\FrontendContactController;
+use App\Http\Controllers\frontend\FrontendServiceController;
+use App\Http\Controllers\frontend\FrontendTestimonialController;
 
 /*
 |--------------------------------------------------------------------------
 | Frontend Routes
 |--------------------------------------------------------------------------
 */
-Route::view('/', 'page.frontend.home.index');
-Route::view('/about', 'page.frontend.about.index');
-Route::view('/testimonial', 'page.frontend.testimonial.index');
-Route::view('/service', 'page.frontend.service.index');
-Route::view('/contact', 'page.frontend.contact.index');
+Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
+Route::get('/about', [FrontendAboutController::class, 'index'])->name('about');
+Route::get('/service', [FrontendServiceController::class, 'index'])->name('service');
+Route::get('/testimonial', [FrontendTestimonialController::class, 'index'])->name('testimonial');
+Route::get('/contact', [FrontendContactController::class, 'index'])->name('contact');
+
 
 /*
 |--------------------------------------------------------------------------
