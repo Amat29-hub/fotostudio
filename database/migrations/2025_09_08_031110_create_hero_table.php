@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('photo')->nullable();
             $table->string('title')->nullable();
-            $table->boolean('is_active')->default(1);
+            $table->boolean('is_active')->default(0);
             $table->timestamps(); // created_at & updated_at
         });
     }

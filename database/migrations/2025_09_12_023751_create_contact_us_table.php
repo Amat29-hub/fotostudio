@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('last_name', 150)->nullable();
             $table->string('subject', 200);
             $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(0);
             $table->timestamps();
         });
     }

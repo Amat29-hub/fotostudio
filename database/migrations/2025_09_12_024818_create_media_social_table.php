@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('link');                      // Link menuju profil
             $table->string('nameaccount');               // Nama akun
             $table->string('namemediasocial');           // Nama platform (Facebook, IG, Twitter)
-            $table->boolean('is_active')->default(true); // Status aktif/tidak
+            $table->boolean('is_active')->default(0); // Status aktif/tidak
             $table->timestamps();
         });
     }

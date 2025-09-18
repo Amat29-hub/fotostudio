@@ -74,7 +74,7 @@ class HeroController extends Controller
     public function toggleStatus($id)
 {
     $hero = Hero::findOrFail($id);
-    $hero->is_active = !$hero->is_active; // toggle nilai 0/1
+    $hero->is_active = !$hero->is_active;
     $hero->save();
 
     return response()->json([
