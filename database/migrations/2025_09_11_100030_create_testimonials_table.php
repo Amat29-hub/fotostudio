@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('testimonials', function (Blueprint $table) {
-            $table->id(); // Primary Key (auto increment)
+            $table->id(); // Primary Key
             $table->string('photo_profile')->nullable(); // foto profile
             $table->string('name');                      // nama client
             $table->text('description');                 // isi testimonial
-            $table->unsignedTinyInteger('rating')->default(5); // rating 1-5
-            $table->boolean('is_active')->default(0);    // status aktif / tidak
+            $table->integer('rating')->default(5); // rating 1-5
+            $table->boolean('is_active')->default(0); // status aktif / tidak
             $table->timestamps();                        // created_at & updated_at
         });
     }

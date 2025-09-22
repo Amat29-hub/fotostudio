@@ -29,13 +29,17 @@
 
     <!-- About Start -->
     <div class="container-fluid py-5">
-        <div class="container">
+         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
-                    <img class="img-fluid mb-3" src="img/about.jpg" alt="">
+                    {{-- Foto About (kosong kalau toggle off) --}}
+                    @if($about && $about->photo)
+                        <img class="img-fluid mb-3" src="{{ asset('storage/'.$about->photo) }}" alt="About Us">
+                    @endif
+
+                    {{-- Kontak (statis, selalu tampil) --}}
                     <div class="d-flex align-items-center bg-light">
                         <div class="btn-square flex-shrink-0" style="width: 100px; height: 100px; background-color:#008080;">
-
                             <i class="fa fa-phone fa-2x text-dark"></i>
                         </div>
                         <div class="px-3">
@@ -44,15 +48,18 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
-                    <h1 class="font-dancing-script text-primary">About Us</h1>
+                    {{-- Title & Subtitle (statis, selalu tampil) --}}
+                    <h1 class="font-dancing-script" style="color:#008080;">About Us</h1>
                     <h1 class="mb-5">Why People Choose Us!</h1>
-                    <p class="mb-4">Kebersamaan selalu lebih indah saat di abadikan
-                        dengan sentuhan fotografi grup yang hangat
-                        kami membantu anda menyimpan momen
-                        berharga bersama teman, sahabat, atau keluarga
-                        besar dalam satu potret penuh cerita
-                    </p>
+
+                    {{-- Deskripsi (kosong kalau toggle off) --}}
+                    @if($about && $about->description)
+                        <p class="mb-4">
+                            {{ $about->description }}
+                        </p>
+                    @endif
                 </div>
             </div>
         </div>
@@ -60,98 +67,46 @@
     <!-- About End -->
 
 
-    <!-- Team Start -->
-    <div class="container-fluid overflow-hidden py-5">
-        <div class="container">
-            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-                <h1 class="font-dancing-script text-primary">Team Members</h1>
-                <h1 class="mb-5">Our Experienced Specialists</h1>
-            </div>
-            <div class="row g-4 team">
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.1s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Hair Specialist</p>
-                            <h4>Lily Taylor</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.3s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Nail Designer</p>
-                            <h4>Olivia Smith</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.5s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Beauty Specialist</p>
-                            <h4>Ava Brown</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="0.7s">
-                    <div class="team-item position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/team-4.jpg" alt="">
-                        <div class="team-overlay">
-                            <p class="text-primary mb-1">Spa Specialist</p>
-                            <h4>Amelia Jones</h4>
-                            <div class="d-flex justify-content-center">
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2 me-3" href="">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a class="btn btn-dark btn-sm-square border-2" href="">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- Team Start -->
+<div class="container-fluid overflow-hidden py-5">
+    <div class="container">
+        {{-- Judul SELALU tampil --}}
+        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+            <h1 class="font-dancing-script" style="color:#008080;">Team Members</h1>
+            <h1 class="mb-5">Our Experienced Specialists</h1>
         </div>
+
+        {{-- Bagian Team Members --}}
+        @if($tenagakerjas->count() > 0)
+            <div class="row g-4 team justify-content-center">
+                @foreach ($tenagakerjas as $index => $team)
+                    <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.1 + ($index * 0.2) }}s">
+                        <div class="team-item position-relative overflow-hidden">
+                            {{-- Foto --}}
+                            @if($team->photo)
+                                <img class="img-fluid w-100" src="{{ asset('storage/'.$team->photo) }}" alt="{{ $team->name }}">
+                            @endif
+
+                            {{-- Overlay --}}
+                            <div class="team-overlay text-center p-3">
+                                @if($team->position)
+                                    <p class="text-primary mb-1">{{ $team->position }}</p>
+                                @endif
+                                @if($team->name)
+                                    <h4>{{ $team->name }}</h4>
+                                @endif
+                                @if($team->description)
+                                    <small class="text-secondary">{{ $team->description }}</small>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
-    <!-- Team End -->
+</div>
+<!-- Team End -->
 
 
 

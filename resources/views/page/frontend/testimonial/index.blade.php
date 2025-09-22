@@ -31,42 +31,42 @@
     <div class="container-fluid py-5">
         <div class="container">
             <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-                <h1 class="font-dancing-script text-primary">Testimonial</h1>
+                <h1 class="font-dancing-script" style="color:#008080;">Testimonial</h1>
                 <h1 class="mb-5">What Clients Say!</h1>
             </div>
             <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.3s">
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-1.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-2.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-3.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-                    <p>Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos. Clita erat
-                        ipsum et lorem et sit.</p>
-                    <img class="img-fluid mx-auto border p-1 mb-3" src="img/testimonial-4.jpg" alt="">
-                    <h4 class="mb-1">Client Name</h4>
-                    <span>Profession</span>
-                </div>
+                @foreach($testimonials as $item)
+                    <div class="text-center bg-light p-4">
+                        <i class="fa fa-quote-left fa-3x mb-3"></i>
+
+                        {{-- Deskripsi --}}
+                        <p>{{ $item->description }}</p>
+
+                        {{-- Foto --}}
+                        <img class="img-fluid mx-auto border p-1 mb-3"
+                             src="{{ asset('storage/'.$item->photo_profile) }}"
+                             alt="{{ $item->name }}"
+                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;">
+
+                        {{-- Nama --}}
+                        <h4 class="mb-1">{{ $item->name }}</h4>
+
+                        {{-- Rating bintang --}}
+                        @php
+                           $stars = ceil($item->rating / 20);
+                       @endphp
+
+                       <div>
+                           @for ($i = 1; $i <= 5; $i++)
+                               @if ($i <= $stars)
+                                   <i class="fas fa-star" style="color: #ffc107;"></i> {{-- Bintang kuning --}}
+                               @else
+                                   <i class="far fa-star" style="color: #ecb40d;"></i>    {{-- Bintang kosong abu --}}
+                               @endif
+                           @endfor
+                       </div>
+                    </div>
+                @endforeach
             </div>
         </div>
     </div>

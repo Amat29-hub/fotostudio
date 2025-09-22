@@ -27,6 +27,17 @@
 
     @yield('content')
 
+    <!-- plugins:js -->
+<script src="{{ asset('assetsbackend/vendors/js/vendor.bundle.base.js') }}"></script>
+<!-- endinject -->
+
+<!-- inject:js -->
+<script src="{{ asset('assetsbackend/js/off-canvas.js') }}"></script>
+<script src="{{ asset('assetsbackend/js/hoverable-collapse.js') }}"></script>
+<script src="{{ asset('assetsbackend/js/template.js') }}"></script>
+<script src="{{ asset('assetsbackend/js/settings.js') }}"></script>
+<script src="{{ asset('assetsbackend/js/todolist.js') }}"></script>
+<!-- endinject -->
 
 </body>
 </html>
