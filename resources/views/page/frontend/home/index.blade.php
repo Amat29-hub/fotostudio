@@ -10,6 +10,7 @@
     <!-- Spinner End -->
 
 
+
     <!-- Hero Start -->
     <div class="container-fluid p-0 hero-header bg-light mb-5">
         <div class="container p-0">
@@ -49,6 +50,7 @@
         </div>
     </div>
     <!-- Hero End -->
+
 
 
     <!-- About Start -->
@@ -91,37 +93,36 @@
     <!-- About End -->
 
 
-<!-- Service Start -->
-<div class="container-fluid service py-5">
-  <div class="container">
-    <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-      <h1 class="font-dancing-script" style="color:#008080;">Our Services</h1>
-      <h1 class="mb-5">Explore Our Services</h1>
-    </div>
 
-    <div class="row g-0 text-center">
-      @foreach($services as $service)
-        <div class="col-md-6 col-lg-4">
-          <div class="p-4 border-end border-bottom">
-            {{-- Foto --}}
-            <img class="img-fluid mb-3"
-                 src="{{ asset('storage/'.$service->photo) }}"
-                 alt="{{ $service->title }}">
-
-            {{-- Judul --}}
-            <h5>{{ $service->title }}</h5>
-
-            {{-- Deskripsi --}}
-            <p>{{ $service->description }}</p>
-          </div>
+    <!-- Service Start -->
+    <div class="container-fluid service py-5">
+      <div class="container">
+        <div class="text-center wow fadeIn" data-wow-delay="0.1s">
+          <h1 class="font-dancing-script" style="color:#008080;">Our Services</h1>
+          <h1 class="mb-5">Explore Our Services</h1>
         </div>
-      @endforeach
+
+        <div class="row g-0 text-center">
+          @foreach($services as $service)
+            <div class="col-md-6 col-lg-4">
+              <div class="p-4 border-end border-bottom">
+                {{-- Foto --}}
+                <img class="img-fluid mb-3"
+                     src="{{ asset('storage/'.$service->photo) }}"
+                     alt="{{ $service->title }}">
+
+                {{-- Judul --}}
+                <h5>{{ $service->title }}</h5>
+
+                {{-- Deskripsi --}}
+                <p>{{ $service->description }}</p>
+              </div>
+            </div>
+          @endforeach
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<!-- Service End -->
-
-
+    <!-- Service End -->
 
 
 
@@ -169,174 +170,182 @@
     <!-- Gallery End -->
 
 
-<!-- Team Start -->
-<div class="container-fluid overflow-hidden py-5">
-    <div class="container">
-        {{-- Judul SELALU tampil --}}
-        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-            <h1 class="font-dancing-script" style="color:#008080;">Team Members</h1>
-            <h1 class="mb-5">Our Experienced Specialists</h1>
-        </div>
 
-        {{-- Bagian Team Members --}}
-        @if($tenagakerjas->count() > 0)
-            <div class="row g-4 team justify-content-center">
-                @foreach ($tenagakerjas as $index => $team)
-                    <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.1 + ($index * 0.2) }}s">
-                        <div class="team-item position-relative overflow-hidden">
-                            {{-- Foto --}}
-                            @if($team->photo)
-                                <img class="img-fluid w-100" src="{{ asset('storage/'.$team->photo) }}" alt="{{ $team->name }}">
-                            @endif
+    <!-- Team Start -->
+    <div class="container-fluid overflow-hidden py-5">
+        <div class="container">
+            {{-- Judul SELALU tampil --}}
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script" style="color:#008080;">Team Members</h1>
+                <h1 class="mb-5">Our Experienced Specialists</h1>
+            </div>
 
-                            {{-- Overlay --}}
-                            <div class="team-overlay text-center p-3">
-                                @if($team->position)
-                                    <p class="text-primary mb-1">{{ $team->position }}</p>
+            {{-- Bagian Team Members --}}
+            @if($tenagakerjas->count() > 0)
+                <div class="row g-4 team justify-content-center">
+                    @foreach ($tenagakerjas as $index => $team)
+                        <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.1 + ($index * 0.2) }}s">
+                            <div class="team-item position-relative overflow-hidden">
+                                {{-- Foto --}}
+                                @if($team->photo)
+                                    <img class="img-fluid w-100" src="{{ asset('storage/'.$team->photo) }}" alt="{{ $team->name }}">
                                 @endif
-                                @if($team->name)
-                                    <h4>{{ $team->name }}</h4>
-                                @endif
-                                @if($team->description)
-                                    <small class="text-secondary">{{ $team->description }}</small>
-                                @endif
+
+                                {{-- Overlay --}}
+                                <div class="team-overlay text-center p-3">
+                                    @if($team->position)
+                                        <p class="text-primary mb-1">{{ $team->position }}</p>
+                                    @endif
+                                    @if($team->name)
+                                        <h4>{{ $team->name }}</h4>
+                                    @endif
+                                    @if($team->description)
+                                        <small class="text-secondary">{{ $team->description }}</small>
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
-</div>
-<!-- Team End -->
-
-
-
- <!-- Partner Start -->
-<div class="container-fluid overflow-hidden py-5">
-    <div class="container">
-        {{-- Judul SELALU tampil --}}
-        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-            <h1 class="font-dancing-script" style="color:#008080;">Partners</h1>
-            <h1 class="mb-5">Our Partner</h1>
+                    @endforeach
+                </div>
+            @endif
         </div>
+    </div>
+    <!-- Team End -->
 
-        {{-- Bagian Partner --}}
-        @if($partners->count() > 0)
-            <div class="row g-4 team justify-content-center">
-                @foreach ($partners as $index => $partner)
-                    <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.3 + ($index * 0.2) }}s">
-                        <div class="team-item position-relative overflow-hidden">
-                            {{-- Foto --}}
-                            @if($partner->photo)
-                                <img class="img-fluid w-100" src="{{ asset('storage/'.$partner->photo) }}" alt="{{ $partner->name }}">
-                            @endif
 
-                            {{-- Overlay --}}
-                            <div class="team-overlay text-center p-3">
-                                @if($partner->name)
-                                    <h4>{{ $partner->name }}</h4>
+
+    <!-- Partner Start -->
+    <div class="container-fluid overflow-hidden py-5">
+        <div class="container">
+            {{-- Judul SELALU tampil --}}
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script" style="color:#008080;">Partners</h1>
+                <h1 class="mb-5">Our Partner</h1>
+            </div>
+
+            {{-- Bagian Partner --}}
+            @if($partners->count() > 0)
+                <div class="row g-4 team justify-content-center">
+                    @foreach ($partners as $index => $partner)
+                        <div class="col-md-6 col-lg-3 wow fadeIn" data-wow-delay="{{ 0.3 + ($index * 0.2) }}s">
+                            <div class="team-item position-relative overflow-hidden">
+                                {{-- Foto --}}
+                                @if($partner->photo)
+                                    <img class="img-fluid w-100" src="{{ asset('storage/'.$partner->photo) }}" alt="{{ $partner->name }}">
                                 @endif
-                                @if($partner->description)
-                                    <p class="text-secondary mb-0">{{ $partner->description }}</p>
-                                @endif
+
+                                {{-- Overlay --}}
+                                <div class="team-overlay text-center p-3">
+                                    @if($partner->name)
+                                        <h4>{{ $partner->name }}</h4>
+                                    @endif
+                                    @if($partner->description)
+                                        <p class="text-secondary mb-0">{{ $partner->description }}</p>
+                                    @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
+                    @endforeach
+                </div>
+            @endif
+        </div>
     </div>
-</div>
-<!-- Partner End -->
+    <!-- Partner End -->
+
 
 
     <!-- Testimonial Start -->
-<div class="container-fluid py-5">
-    <div class="container">
-        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-            <h1 class="font-dancing-script" style="color:#008080;">Testimonial</h1>
-            <h1 class="mb-5">What Clients Say!</h1>
-        </div>
+    <div class="container-fluid py-5">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script" style="color:#008080;">Testimonial</h1>
+                <h1 class="mb-5">What Clients Say!</h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.3s">
+                @foreach($testimonials as $item)
+                    <div class="text-center bg-light p-4">
+                        <i class="fa fa-quote-left fa-3x mb-3"></i>
 
-        <div class="owl-carousel testimonial-carousel wow fadeIn" data-wow-delay="0.3s">
-            @foreach($testimonials as $item)
-                <div class="text-center bg-light p-4">
-                    <i class="fa fa-quote-left fa-3x mb-3"></i>
-
-                    {{-- Deskripsi --}}
-                    <p>{{ $item->description }}</p>
-
-                    {{-- Foto --}}
-                    <img class="img-fluid mx-auto border p-1 mb-3"
-                         src="{{ asset('storage/'.$item->photo_profile) }}"
-                         alt="{{ $item->name }}"
-                         style="width:100px; height:100px; border-radius:50%; object-fit:cover;">
-
-                    {{-- Nama --}}
-                    <h4 class="mb-1">{{ $item->name }}</h4>
-
-                    {{-- Rating bintang --}}
-                    <div>
-                        @for ($i = 1; $i <= 5; $i++)
-                            @if ($i <= $item->rating)
-                                <i class="fa fa-star text-warning"></i>
-                            @else
-                                <i class="fa fa-star text-secondary"></i>
-                            @endif
-                        @endfor
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
-<!-- Testimonial End -->
-
-
-<!-- Start Media Social -->
-<div class="container-fluid py-5" style="background-color: #f8f0f0;">
-    <div class="container">
-        <div class="text-center wow fadeIn" data-wow-delay="0.2s">
-            <h1 class="font-dancing-script" style="color:#008080;">Media Social</h1>
-            <h1 class="mb-5">Find Us on Social Media</h1>
-        </div>
-        <div class="row justify-content-center">
-            @foreach($mediasocials as $item)
-                <div class="col-lg-6 col-md-8 wow fadeIn mb-3" data-wow-delay="0.4s">
-                    <div class="d-flex align-items-center p-3 rounded-pill"
-                         style="background-color: #008080; color: white;">
+                        {{-- Deskripsi --}}
+                        <p>{{ $item->description }}</p>
 
                         {{-- Foto --}}
-                        <img class="rounded-circle me-3"
-                             src="{{ asset('storage/'.$item->photo) }}"
-                             alt="{{ $item->name_account }}"
-                             style="width: 50px; height: 60px; object-fit: cover;">
+                        <img class="img-fluid mx-auto border p-1 mb-3"
+                             src="{{ asset('storage/'.$item->photo_profile) }}"
+                             alt="{{ $item->name }}"
+                             style="width:100px; height:100px; border-radius:50%; object-fit:cover;">
 
-                        {{-- Nama akun (selalu tampil) --}}
-                        <div class="flex-grow-1">
-                            <i class="fab fa-{{ strtolower($item->name_mediasocial) }} me-2"></i>
-                            <span class="fs-5">{{ $item->name_account }}</span>
-                        </div>
+                        {{-- Nama --}}
+                        <h4 class="mb-1">{{ $item->name }}</h4>
 
-                        {{-- Tombol --}}
-                        <a href="{{ $item->link }}" class="btn rounded-pill px-4"
-                           style="background-color: #a8e6e3; border-color: #a8e6e3; color: #008080;"
-                           target="_blank">Kunjung!</a>
+                        {{-- Rating bintang --}}
+                        @php
+                           $stars = ceil($item->rating / 20);
+                       @endphp
+
+                       <div>
+                           @for ($i = 1; $i <= 5; $i++)
+                               @if ($i <= $stars)
+                                   <i class="fas fa-star" style="color: #ffc107;"></i> {{-- Bintang kuning --}}
+                               @else
+                                   <i class="far fa-star" style="color: #ecb40d;"></i>    {{-- Bintang kosong abu --}}
+                               @endif
+                           @endfor
+                       </div>
                     </div>
-                </div>
-            @endforeach
+                @endforeach
+            </div>
         </div>
     </div>
-</div>
-<!-- End Media Social -->
+    <!-- Testimonial End -->
 
+
+
+    <!-- Start Media Social -->
+    <div class="container-fluid py-5" style="background-color: #f8f0f0;">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script" style="color:#008080;">Media Social</h1>
+                <h1 class="mb-5">Find Us on Social Media</h1>
+            </div>
+
+            <div class="row justify-content-center">
+                @foreach($mediasocials as $item)
+                    <div class="col-lg-6 col-md-8 wow fadeIn mb-3" data-wow-delay="0.4s">
+                        <div class="d-flex align-items-center p-3 rounded-pill"
+                             style="background-color: #008080; color: white;">
+
+                            {{-- Foto Profil --}}
+                            <img class="rounded-circle me-3"
+                                 src="{{ asset('storage/'.$item->photo) }}"
+                                 alt="{{ $item->name_account }}"
+                                 style="width: 50px; height: 60px; object-fit: cover;">
+
+                            {{-- Nama akun & icon --}}
+                            <div class="flex-grow-1">
+                                <i class="fab fa-{{ strtolower($item->namemediasocial) }} me-2"></i>
+                                <span class="fs-5">{{ $item->nameaccount }}</span>
+                            </div>
+
+                            {{-- Tombol link --}}
+                            <a href="{{ $item->link }}"
+                               class="btn rounded-pill px-4"
+                               style="background-color: #a8e6e3; border-color: #a8e6e3; color: #008080;"
+                               target="_blank">
+                                Kunjung!
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- End Media Social -->
 
 
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="background:#008080; border-color #008080"><i class="bi bi-arrow-up"></i></a>
-
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>

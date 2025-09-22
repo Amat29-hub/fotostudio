@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\AuthController;
 use App\Http\Controllers\Backend\HeroController;
-use App\Http\Controllers\Backend\MemberController;
 use App\Http\Controllers\Backend\AboutusController;
 use App\Http\Controllers\Backend\GalleryController;
 use App\Http\Controllers\Backend\PartnerController;
@@ -15,7 +14,6 @@ use App\Http\Controllers\Backend\TenagaKerjaController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Frontend\FrontendHomeController;
 use App\Http\Controllers\frontend\FrontendAboutController;
-use App\Http\Controllers\Backend\DashboardBackendController;
 use App\Http\Controllers\frontend\FrontendContactController;
 use App\Http\Controllers\frontend\FrontendServiceController;
 use App\Http\Controllers\frontend\FrontendTestimonialController;
@@ -29,7 +27,10 @@ Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/about', [FrontendAboutController::class, 'index'])->name('about');
 Route::get('/service', [FrontendServiceController::class, 'index'])->name('service');
 Route::get('/testimonial', [FrontendTestimonialController::class, 'index'])->name('testimonial');
+// Contact Us (Frontend)
 Route::get('/contact', [FrontendContactController::class, 'index'])->name('contact');
+Route::post('/contact/store', [FrontendContactController::class, 'store'])->name('contact.store');
+
 
 
 /*
@@ -41,16 +42,6 @@ Route::get('/contact', [FrontendContactController::class, 'index'])->name('conta
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login'])->name('login.post');
 
-// Register
-Route::get('register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('register', [AuthController::class, 'register'])->name('register.post');
-
-// Forgot & Reset Password
-Route::get('forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
-Route::post('forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email');
-Route::get('reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
-Route::post('reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
-
 // Logout
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -60,12 +51,6 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->prefix('adminpanel')->group(function () {
-    // Dashboard (panggil controller agar ada $members)
-    Route::get('/dashboard', [DashboardBackendController::class, 'index'])->name('dashboard');
-
-    // Members
-    Route::resource('members', MemberController::class);
-
     // Hero
     Route::resource('hero', HeroController::class);
     Route::patch('hero/{id}/toggle-status', [HeroController::class, 'toggleStatus'])->name('hero.toggleStatus');

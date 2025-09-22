@@ -14,13 +14,6 @@
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
           <li class="nav-item">
-            <a class="nav-link" href="/adminpanel/dashboard">
-              <i class="menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-
-          <li class="nav-item">
             <a class="nav-link" href="/adminpanel/hero">
               <i class="menu-icon"></i>
               <span class="menu-title">Hero</span>

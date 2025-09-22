@@ -495,6 +495,26 @@
     background: var(--bs-dark);
 }
 
+/* Default bintang */
+.rating .fa-star {
+    color: #ffc107; /* kuning */
+}
+
+/* Bintang kosong */
+.rating .fa-star.text-secondary {
+    color: #ccc; /* abu-abu */
+}
+
+/* Override agar item tengah tetap kuning */
+.testimonial-carousel .owl-item.center .fa-star {
+    color: #ffc107 !important;
+}
+
+.testimonial-carousel .owl-item.center .fa-star.text-secondary {
+    color: #ccc !important;
+}
+
+
 
 /*** Footer ***/
 @media (min-width: 992px) {
