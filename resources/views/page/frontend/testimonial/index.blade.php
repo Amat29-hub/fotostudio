@@ -16,11 +16,11 @@
         <div class="container text-center py-5">
             <h1 class="display-1 animated slideInLeft">Testimonial</h1>
             <nav aria-label="breadcrumb">
-                <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
-                    <li class="breadcrumb-item"><a class="text-primary" href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a class="text-primary" href="#">Pages</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Testimonial</li>
-                </ol>
+               <ol class="breadcrumb justify-content-center animated slideInLeft mb-0">
+                   <li class="breadcrumb-item"><a href="/" style="color:#008080;">Home</a></li>
+                   <li class="breadcrumb-item"><a href="#" style="color:#008080;">Pages</a></li>
+                   <li class="breadcrumb-item active" aria-current="page" style="color:#444444;">Testimonial</li>
+               </ol>
             </nav>
         </div>
     </div>

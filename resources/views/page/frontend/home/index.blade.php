@@ -3,12 +3,11 @@
     <!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <div class="spinner-grow custom-spinner" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
     <!-- Spinner End -->
-
 
 
     <!-- Hero Start -->
@@ -34,7 +33,7 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <div class="owl-carousel header-carousel animated fadeIn">
+                        <div class="animated fadeIn">
                             @foreach($heroes as $hero)
                                 @if($hero->photo)
                                     <div class="item">
@@ -57,7 +56,7 @@
     <div class="container-fluid py-5">
          <div class="container">
             <div class="row g-5">
-                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.2s">
+                <div class="col-lg-6 wow fadeIn about-section" data-wow-delay="0.2s">
                     {{-- Foto About (kosong kalau toggle off) --}}
                     @if($about && $about->photo)
                         <img class="img-fluid mb-3" src="{{ asset('storage/'.$about->photo) }}" alt="About Us">
@@ -69,7 +68,7 @@
                             <i class="fa fa-phone fa-2x text-dark"></i>
                         </div>
                         <div class="px-3">
-                            <h3>+0123456789</h3>
+                            <h3>+62 856 5973 8675</h3>
                             <span>Call us direct 24/7 for get a free consultation</span>
                         </div>
                     </div>
@@ -346,6 +345,7 @@
 
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" style="background:#008080; border-color #008080"><i class="bi bi-arrow-up"></i></a>
+
 
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
