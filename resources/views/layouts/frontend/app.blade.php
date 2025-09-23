@@ -40,5 +40,46 @@
     @yield('content')
 
     @include('layouts.frontend.footer')
+
+    <style>
+        .hero-header img {
+            width: 100%;
+            height: 600px;   /* tinggi konsisten untuk hero */
+            object-fit: cover;
+        }
+
+        .about-section img {
+            width: 100%;
+            height: 400px;   /* tinggi konsisten untuk about */
+            object-fit: cover;
+            border-radius: 10px; /* opsional, biar sudut agak halus */
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 300px;   /* tinggi konsisten untuk gallery */
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .team-item img,
+        .partner img {
+            width: 100%;
+            height: 350px;   /* tinggi konsisten untuk team & partner */
+            object-fit: cover;
+        }
+
+        .service img {
+            width: 100%;
+            height: 250px;   /* tinggi konsisten untuk service */
+            object-fit: cover;
+        }
+
+
+            .custom-spinner {        /* warna spinner/loading */
+            color: #008080 !important;
+        }
+    </style>
+
 </body>
 </html>
