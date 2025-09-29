@@ -31,14 +31,10 @@
                   </td>
 
                   {{-- Name Account --}}
-                  <td class="text-start py-3">
-                    <div>{{ $item->nameaccount }}</div>
-                  </td>
+                  <td class="text-start py-3">{{ $item->nameaccount }}</td>
 
                   {{-- Media Social --}}
-                  <td class="text-start py-3">
-                    <div>{{ $item->namemediasocial }}</div>
-                  </td>
+                  <td class="text-start py-3">{{ $item->namemediasocial }}</td>
 
                   {{-- Link --}}
                   <td class="text-start py-3">
@@ -57,13 +53,12 @@
                         </a>
 
                         {{-- Delete --}}
-                        <form action="{{ route('mediasocial.destroy', $item->id) }}" method="POST" style="display:inline">
+                        <form action="{{ route('mediasocial.destroy', $item->id) }}" method="POST" class="delete-form d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -109,15 +104,22 @@
 }
 .switch input {opacity: 0; width: 0; height: 0;}
 .slider {
-  position: absolute; cursor: pointer;
+  position: absolute;
+  cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc; transition: .4s; border-radius: 34px;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
 }
 .slider:before {
-  position: absolute; content: "";
+  position: absolute;
+  content: "";
   height: 20px; width: 20px;
   left: 3px; bottom: 3px;
-  background-color: white; transition: .4s; border-radius: 50%;
+  background-color: #fff; /* circle tetap putih */
+  transition: .4s;
+  border-radius: 50%;
+  z-index: 2; /* pastikan terlihat */
 }
 input:checked + .slider {background-color: #2196F3;}
 input:checked + .slider:before {transform: translateX(24px);}
@@ -125,30 +127,84 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX Toggle --}}
+{{-- AJAX + SweetAlert --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).on('change', '.toggle-status', function() {
-    let mediaId = $(this).data('id');
-    let status = $(this).is(':checked') ? 1 : 0;
+$(document).ready(function(){
 
-    $.ajax({
-        url: "/adminpanel/mediasocial/" + mediaId + "/toggle-status",
-        type: "PATCH",
-        data: {
-            _token: "{{ csrf_token() }}",
-            is_active: status
-        },
-        success: function(response) {
-            if (response.success) {
-                console.log("Status updated:", response.status);
+    // Toggle status with SweetAlert
+    $(document).on('change', '.toggle-status', function() {
+        let checkbox = $(this);
+        let mediaId = checkbox.data('id');
+        let status = checkbox.is(':checked') ? 1 : 0;
+
+        $.ajax({
+            url: "/adminpanel/mediasocial/" + mediaId + "/toggle-status",
+            type: "PATCH",
+            data: {
+                _token: "{{ csrf_token() }}",
+                is_active: status
+            },
+            success: function(response) {
+                if(response.success){
+                    Swal.fire({
+                        icon: 'success',
+                        title: response.status ? 'Aktif' : 'Nonaktif',
+                        text: response.status ? 'Item berhasil diaktifkan.' : 'Item berhasil dinonaktifkan!',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            },
+            error: function(xhr){
+                let res = xhr.responseJSON;
+                let message = res && res.message ? res.message : 'Gagal update status!';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: message
+                });
+                // kembalikan status checkbox ke sebelumnya
+                checkbox.prop('checked', !checkbox.prop('checked'));
             }
-        },
-        error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
-        }
+        });
     });
+
+    // SweetAlert konfirmasi hapus
+    $('.btn-delete').on('click', function(e){
+        e.preventDefault();
+        let form = $(this).closest('form');
+        Swal.fire({
+            title: 'Yakin hapus data ini?',
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                form.submit();
+            }
+        });
+    });
+
+});
+</script>
+<script>
+$(document).ready(function(){
+    // Notifikasi sukses Create / Edit
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses',
+            text: '{{ session("success") }}',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    @endif
 });
 </script>
 @endsection

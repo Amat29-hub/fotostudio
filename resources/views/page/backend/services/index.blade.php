@@ -55,9 +55,8 @@
                           @csrf
                           @method('DELETE')
                           <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -119,7 +118,8 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX --}}
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).on('change', '.toggle-status', function() {
@@ -133,14 +133,58 @@ $(document).on('change', '.toggle-status', function() {
         },
         success: function(response) {
             if (response.success) {
-                console.log("Status updated:", response.status);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: response.status ? 'Service berhasil diaktifkan.' : 'Service berhasil dinonaktifkan.',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
             }
         },
         error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal!',
+                text: xhr.responseJSON?.message || 'Gagal update status.',
+            });
+            // Kembalikan checkbox ke posisi semula
+            $(this).prop('checked', !$(this).prop('checked'));
+        }.bind(this)
+    });
+});
+
+// SweetAlert konfirmasi delete
+$(document).on('click', '.btn-delete', function(e) {
+    e.preventDefault();
+    let form = $(this).closest("form");
+
+    Swal.fire({
+        title: 'Yakin?',
+        text: "Data yang dihapus tidak bisa dikembalikan!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
         }
     });
 });
 </script>
+{{-- SweetAlert jika ada session success --}}
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil!',
+    text: "{{ session('success') }}",
+    timer: 2000,
+    showConfirmButton: false
+});
+</script>
+@endif
 @endsection

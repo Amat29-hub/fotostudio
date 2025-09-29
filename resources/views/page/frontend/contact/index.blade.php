@@ -1,9 +1,9 @@
 @extends('layouts.frontend.app')
 @section('content')
-    <!-- Spinner Start -->
+<!-- Spinner Start -->
     <div id="spinner"
         class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <div class="spinner-grow custom-spinner" style="width: 3rem; height: 3rem;" role="status">
             <span class="sr-only">Loading...</span>
         </div>
     </div>
@@ -30,7 +30,7 @@
     <div class="container-fluid py-5">
         <div class="container">
             <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="font-dancing-script text-primary">Contact</h1>
+                <h1 class="font-dancing-script" style="color:#008080;">Contact</h1>
                 <h1 class="mb-5">Have Any Query? Contact Us</h1>
             </div>
             <div class="row justify-content-center">
@@ -71,9 +71,12 @@
                               <div class="col-12">
                                   <textarea name="description" rows="5" class="form-control" placeholder="Description" required></textarea>
                               </div>
-                              <div class="col-12">
-                                  <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
-                              </div>
+                               <div class="col-12">
+                                   <button class="btn w-100 py-3" type="submit"
+                                       style="background:#008080; border-color:#000000; color:#000000;">
+                                       Send Message
+                                   </button>
+                               </div>
                           </div>
                       </form>
                     </div>

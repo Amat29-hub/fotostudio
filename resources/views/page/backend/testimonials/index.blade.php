@@ -43,21 +43,18 @@
                   {{-- Rating --}}
                   <td class="text-start py-3">
                     @php
-                        // Konversi persen ke skala 1-5
-                        $stars = round($testimonial->rating / 20); // 100% / 20 = 5 bintang
+                        $stars = round($testimonial->rating / 20);
                     @endphp
-                  
                     <div>
                         @for ($i = 1; $i <= 5; $i++)
                             @if ($i <= $stars)
-                                <i class="ti-star text-warning"></i> {{-- Bintang terisi --}}
+                                <i class="ti-star text-warning"></i>
                             @else
-                                <i class="ti-star text-secondary"></i> {{-- Bintang kosong --}}
+                                <i class="ti-star text-secondary"></i>
                             @endif
                         @endfor
                     </div>
                   </td>
-
 
                   {{-- Options --}}
                   <td class="text-center py-3">
@@ -71,13 +68,12 @@
                         </a>
 
                         {{-- Delete --}}
-                        <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST" style="display:inline">
+                        <form action="{{ route('testimonials.destroy', $testimonial->id) }}" method="POST" class="delete-form" style="display:inline">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -114,37 +110,40 @@
 </div>
 
 {{-- Custom CSS untuk Toggle --}}
-    <style>
-        .switch {
-          position: relative;
-          display: inline-block;
-          width: 50px;
-          height: 26px;
-        }
-        .switch input {opacity: 0; width: 0; height: 0;}
-        .slider {
-          position: absolute; cursor: pointer;
-          top: 0; left: 0; right: 0; bottom: 0;
-          background-color: #ccc; transition: .4s; border-radius: 34px;
-        }
-        .slider:before {
-          position: absolute; content: "";
-          height: 20px; width: 20px;
-          left: 3px; bottom: 3px;
-          background-color: white; transition: .4s; border-radius: 50%;
-        }
-        input:checked + .slider {background-color: #2196F3;}
-        input:checked + .slider:before {transform: translateX(24px);}
-        .slider.round {border-radius: 34px;}
-        .slider.round:before {border-radius: 50%;}
-    </style>
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+.switch input {opacity: 0; width: 0; height: 0;}
+.slider {
+  position: absolute; cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc; transition: .4s; border-radius: 34px;
+}
+.slider:before {
+  position: absolute; content: "";
+  height: 20px; width: 20px;
+  left: 3px; bottom: 3px;
+  background-color: white; transition: .4s; border-radius: 50%;
+}
+input:checked + .slider {background-color: #2196F3;}
+input:checked + .slider:before {transform: translateX(24px);}
+.slider.round {border-radius: 34px;}
+.slider.round:before {border-radius: 50%;}
+</style>
 
-{{-- AJAX Toggle --}}
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{{-- AJAX Toggle + Delete --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).on('change', '.toggle-status', function() {
     let testimonialId = $(this).data('id');
-    let isActive = $(this).is(':checked') ? 1 : 0; // ✅ ambil nilai checkbox
+    let isActive = $(this).is(':checked') ? 1 : 0;
 
     $.ajax({
         url: "{{ url('adminpanel/testimonials') }}/" + testimonialId + "/toggle-status",
@@ -155,14 +154,57 @@ $(document).on('change', '.toggle-status', function() {
         },
         success: function(response) {
             if (response.success) {
-                console.log("Status updated:", response.status);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Status berhasil diperbarui',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
             }
         },
         error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Gagal update status!'
+            });
+        }
+    });
+});
+
+// SweetAlert Delete
+$(document).on('click', '.btn-delete', function(e) {
+    e.preventDefault();
+    let form = $(this).closest("form");
+
+    Swal.fire({
+        title: 'Apakah kamu yakin?',
+        text: "Data akan dihapus permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
         }
     });
 });
 </script>
+
+{{-- Flash Message dari Laravel --}}
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil!',
+    text: "{{ session('success') }}",
+    timer: 2000,
+    showConfirmButton: false
+});
+</script>
+@endif
 @endsection

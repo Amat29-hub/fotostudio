@@ -34,47 +34,45 @@
                     <div>{{ $hero->subtitle }}</div>
                   </td>
 
-{{-- Options --}}
-<td class="text-center py-3">
-  <div class="d-flex flex-column align-items-center">
-    <div class="mb-2">
-      {{-- Edit --}}
-      <a href="{{ route('hero.edit', $hero->id) }}"
-         class="btn text-white btn-sm px-3 me-1"
-         style="background-color:#21BF06;">
-        <i class="ti-pencil"></i> Edit
-      </a>
+                  {{-- Options --}}
+                  <td class="text-center py-3">
+                    <div class="d-flex flex-column align-items-center">
+                      <div class="mb-2">
+                        {{-- Edit --}}
+                        <a href="{{ route('hero.edit', $hero->id) }}"
+                           class="btn text-white btn-sm px-3 me-1"
+                           style="background-color:#21BF06;">
+                          <i class="ti-pencil"></i> Edit
+                        </a>
 
-      {{-- Delete --}}
-      <form action="{{ route('hero.destroy', $hero->id) }}" method="POST" style="display:inline">
-        @csrf
-        @method('DELETE')
-        <button type="submit"
-                class="btn text-white btn-sm px-3"
-                style="background-color:#DC3545;"
-                onclick="return confirm('Yakin hapus data ini?')">
-          <i class="ti-trash"></i> Delete
-        </button>
-      </form>
-    </div>
+                        {{-- Delete --}}
+                        <form action="{{ route('hero.destroy', $hero->id) }}" method="POST" class="delete-form d-inline">
+                          @csrf
+                          @method('DELETE')
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
+                            <i class="ti-trash"></i> Delete
+                          </button>
+                        </form>
+                      </div>
 
-    {{-- Toggle (tengah + ada jarak) --}}
-    <label class="switch mt-2">
-      <input type="checkbox" class="toggle-status"
-             data-id="{{ $hero->id }}"
-             {{ $hero->is_active ? 'checked' : '' }}>
-      <span class="slider round"></span>
-    </label>
-  </div>
-</td>
-
+                      {{-- Toggle --}}
+                      <label class="switch mt-2">
+                        <input type="checkbox" class="toggle-status"
+                               data-id="{{ $hero->id }}"
+                               {{ $hero->is_active ? 'checked' : '' }}>
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </td>
                 </tr>
                 @endforeach
               </tbody>
             </table>
           </div>
 
-          {{-- Create New Button at bottom --}}
+          {{-- Create New Button --}}
           <div class="text-center mt-4">
             <a href="{{ route('hero.create') }}"
                class="btn text-white px-4"
@@ -89,7 +87,7 @@
   </div>
 </div>
 
-{{-- Custom CSS untuk Toggle --}}
+{{-- Custom CSS Toggle --}}
 <style>
 .switch {
   position: relative;
@@ -115,28 +113,83 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX --}}
+{{-- Script AJAX + SweetAlert --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).on('change', '.toggle-status', function() {
-    let heroId = $(this).data('id');
+function initToggleStatus(selector, baseUrl) {
+    $(document).on('change', selector, function() {
+        let itemId = $(this).data('id');
+        let checkbox = $(this);
 
-    $.ajax({
-        url: "/adminpanel/hero/" + heroId + "/toggle-status",
-        type: "PATCH",
-        data: {
-            _token: "{{ csrf_token() }}"
-        },
-        success: function(response) {
-            if (response.success) {
-                console.log("Status updated:", response.status);
+        $.ajax({
+            url: baseUrl + itemId + "/toggle-status",
+            type: "PATCH",
+            data: { _token: "{{ csrf_token() }}" },
+            success: function(response) {
+                if (response.success) {
+                    if (response.status) {
+                        // Aktifkan -> matikan yang lain
+                        $(selector).not(checkbox).prop('checked', false);
+                        checkbox.prop('checked', true);
+                        Swal.fire({ icon: 'success', title: 'Aktif', text: 'Item berhasil diaktifkan.', timer: 1500, showConfirmButton: false });
+                    } else {
+                        // Kalau tidak ada yang aktif sama sekali
+                        if ($(selector + ':checked').length === 0) {
+                            checkbox.prop('checked', true); // Balikkan
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Minimal 1 Aktif',
+                                text: 'Minimal harus ada 1 hero yang aktif!'
+                            });
+                        } else {
+                            Swal.fire({ icon: 'info', title: 'Nonaktif', text: 'Item berhasil dinonaktifkan.', timer: 1500, showConfirmButton: false });
+                        }
+                    }
+                }
+            },
+            error: function() {
+                Swal.fire({ icon: 'error', title: 'Error', text: 'Gagal update status!' });
+                checkbox.prop('checked', !checkbox.prop('checked'));
             }
-        },
-        error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
-        }
+        });
     });
+}
+
+// Inisialisasi
+$(document).ready(function() {
+    initToggleStatus('.toggle-status', '/adminpanel/hero/');
+
+    // SweetAlert konfirmasi hapus
+    $('.btn-delete').on('click', function(e) {
+        e.preventDefault();
+        let form = $(this).closest('form');
+        Swal.fire({
+            title: 'Yakin hapus data ini?',
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+
+    // SweetAlert sukses setelah create
+    @if(session('success'))
+      Swal.fire({
+        icon: 'success',
+        title: 'Berhasil',
+        text: "{{ session('success') }}",
+        timer: 2000,
+        showConfirmButton: false
+      });
+    @endif
 });
 </script>
 @endsection

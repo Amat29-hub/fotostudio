@@ -74,12 +74,32 @@ class AboutusController extends Controller
     public function toggleStatus($id)
     {
         $about = Aboutus::findOrFail($id);
-        $about->is_active = !$about->is_active; // toggle nilai 0/1
-        $about->save();
-
+    
+        if ($about->is_active) {
+            // Kalau mau menonaktifkan, cek dulu apakah masih ada yang aktif
+            $activeCount = Aboutus::where('is_active', true)->count();
+    
+            if ($activeCount <= 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Minimal harus ada 1 About Us yang aktif.'
+                ], 400);
+            }
+    
+            $about->is_active = false;
+            $about->save();
+        } else {
+            // Kalau mau mengaktifkan, matikan semua about lain
+            Aboutus::where('id', '!=', $about->id)->update(['is_active' => false]);
+    
+            $about->is_active = true;
+            $about->save();
+        }
+    
         return response()->json([
             'success' => true,
             'status' => $about->is_active
         ]);
     }
+
 }

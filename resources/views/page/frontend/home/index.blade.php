@@ -315,10 +315,9 @@
                              style="background-color: #008080; color: white;">
 
                             {{-- Foto Profil --}}
-                            <img class="rounded-circle me-3"
+                            <img class="social-photo me-3"
                                  src="{{ asset('storage/'.$item->photo) }}"
-                                 alt="{{ $item->name_account }}"
-                                 style="width: 50px; height: 60px; object-fit: cover;">
+                                 alt="{{ $item->name_account }}">
 
                             {{-- Nama akun & icon --}}
                             <div class="flex-grow-1">
@@ -340,6 +339,39 @@
         </div>
     </div>
     <!-- End Media Social -->
+
+
+
+    <!-- Sejarah Start -->
+    @if($sejarah)
+    <div class="container-fluid py-5" style="background-color: #ffffff;">
+        <div class="container">
+            <div class="text-center wow fadeIn" data-wow-delay="0.2s">
+                <h1 class="font-dancing-script" style="color:#008080;">History</h1>
+                <h1 class="mb-5">{{ $sejarah->title }}</h1>
+            </div>
+
+            <div class="row align-items-center">
+                {{-- Foto --}}
+                @if($sejarah->photo)
+                    <div class="col-lg-6 wow fadeIn" data-wow-delay="0.3s">
+                        <img src="{{ asset('storage/' . $sejarah->photo) }}"
+                            alt="{{ $sejarah->title }}"
+                            class="sejarah-img">
+                    </div>
+                @endif
+
+                {{-- Deskripsi --}}
+                <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                    <p class="mb-4">
+                        {{ $sejarah->description }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+    <!-- Sejarah End -->
 
 
 

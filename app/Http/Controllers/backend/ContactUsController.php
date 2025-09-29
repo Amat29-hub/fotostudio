@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\ContactUs;
@@ -8,30 +8,31 @@ use Illuminate\Http\Request;
 
 class ContactUsController extends Controller
 {
-    // Halaman daftar Contact Us
     public function index()
     {
         $contacts = ContactUs::all();
         return view('page.backend.contactus.index', compact('contacts'));
     }
 
-    // Halaman detail Contact Us
     public function show($id)
     {
         $contact = ContactUs::findOrFail($id);
+
+        // Update status jadi sudah dilihat kalau masih 0
+        if ($contact->is_active == 0) {
+            $contact->is_active = 1;
+            $contact->save();
+        }
+
         return view('page.backend.contactus.show', compact('contact'));
     }
 
-    // Toggle status aktif/nonaktif via AJAX
-    public function toggleStatus($id)
+    public function destroy($id)
     {
         $contact = ContactUs::findOrFail($id);
-        $contact->is_active = !$contact->is_active;
-        $contact->save();
+        $contact->delete();
 
-        return response()->json([
-            'success' => true,
-            'status'  => $contact->is_active
-        ]);
+        return redirect()->route('contactus.index')
+                         ->with('success', 'Data contact berhasil dihapus');
     }
 }

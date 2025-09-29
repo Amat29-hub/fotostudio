@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\backend;
+namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Sejarah;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class SejarahController extends Controller
 {
     public function index()
     {
+        // Ambil semua data dari tabel sejarah
         $sejarah = Sejarah::all();
+
+        // Kirim ke view
         return view('page.backend.sejarah.index', compact('sejarah'));
     }
 
@@ -23,22 +25,21 @@ class SejarahController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'       => 'required|string|max:255',
+            'photo' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $data = $request->only('title', 'description');
+        $path = $request->file('photo')->store('sejarah', 'public');
 
-        if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('sejarah', 'public');
-        }
+        Sejarah::create([
+            'photo' => $path,
+            'title' => $request->title,
+            'description' => $request->description,
+            'is_active' => $request->is_active ?? 0,
+        ]);
 
-        $data['is_active'] = true;
-
-        Sejarah::create($data);
-
-        return redirect()->route('sejarah.index')->with('success', 'Data Sejarah berhasil ditambahkan!');
+        return redirect()->route('sejarah.index')->with('success', 'Data sejarah berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -50,49 +51,81 @@ class SejarahController extends Controller
     public function update(Request $request, $id)
     {
         $sejarah = Sejarah::findOrFail($id);
-
+    
         $request->validate([
-            'title'       => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'photo'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:5000',
         ]);
-
-        $data = $request->only('title', 'description');
-
+    
+        // Update foto jika ada
         if ($request->hasFile('photo')) {
-            if ($sejarah->photo && Storage::disk('public')->exists($sejarah->photo)) {
-                Storage::disk('public')->delete($sejarah->photo);
-            }
-            $data['photo'] = $request->file('photo')->store('sejarah', 'public');
+            $path = $request->file('photo')->store('sejarah', 'public');
+            $sejarah->photo = $path;
         }
-
-        $sejarah->update($data);
-
-        return redirect()->route('sejarah.index')->with('success', 'Data Sejarah berhasil diperbarui!');
+    
+        $sejarah->title = $request->title;
+        $sejarah->description = $request->description;
+    
+        // Hanya update is_active jika field is_active dikirimkan di form
+        if ($request->has('is_active')) {
+            // Jika user menonaktifkan, pastikan minimal 1 item aktif
+            if (!$request->is_active && $sejarah->is_active) {
+                $activeCount = Sejarah::where('is_active', 1)->count();
+                if ($activeCount <= 1) {
+                    return redirect()->back()->with('error', 'Minimal harus ada 1 item aktif!');
+                }
+            }
+    
+            $sejarah->is_active = $request->is_active;
+        }
+    
+        $sejarah->save();
+    
+        return redirect()->route('sejarah.index')->with('success', 'Data sejarah berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
         $sejarah = Sejarah::findOrFail($id);
-
-        if ($sejarah->photo && Storage::disk('public')->exists($sejarah->photo)) {
-            Storage::disk('public')->delete($sejarah->photo);
-        }
-
         $sejarah->delete();
 
-        return redirect()->route('sejarah.index')->with('success', 'Data Sejarah berhasil dihapus!');
+        return redirect()->route('sejarah.index')->with('success', 'Data sejarah berhasil dihapus!');
     }
 
-    public function toggleStatus($id)
-    {
-        $sejarah = Sejarah::findOrFail($id);
-        $sejarah->is_active = !$sejarah->is_active;
+public function toggleStatus($id)
+{
+    $sejarah = Sejarah::findOrFail($id);
+
+    if ($sejarah->is_active) {
+        // Mau dinonaktifkan
+        $activeCount = Sejarah::where('is_active', 1)->count();
+
+        if ($activeCount <= 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Minimal harus ada 1 item aktif!'
+            ], 400);
+        }
+
+        $sejarah->is_active = 0;
         $sejarah->save();
 
         return response()->json([
             'success' => true,
-            'status'  => $sejarah->is_active
+            'status' => false
+        ]);
+    } else {
+        // Mau diaktifkan
+        Sejarah::where('id', '!=', $sejarah->id)->update(['is_active' => 0]);
+        $sejarah->is_active = 1;
+        $sejarah->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => true
         ]);
     }
+}
+
 }

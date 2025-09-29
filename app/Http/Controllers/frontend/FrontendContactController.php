@@ -26,7 +26,7 @@ class FrontendContactController extends Controller
             'last_name'   => $request->last_name,
             'subject'     => $request->subject,
             'description' => $request->description,
-            'is_active'   => 1, // default aktif
+            'is_active'   => 0,
         ]);
 
         return redirect()->back()->with('success', 'Pesan berhasil dikirim!');

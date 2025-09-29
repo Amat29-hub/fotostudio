@@ -44,20 +44,19 @@
                           <i class="ti-pencil"></i> Edit
                         </a>
 
-                        {{-- Delete --}}
-                        <form action="{{ route('about.destroy', $about->id) }}" method="POST" style="display:inline">
+                        {{-- Delete pakai SweetAlert --}}
+                        <form action="{{ route('about.destroy', $about->id) }}" method="POST" class="d-inline form-delete">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
                       </div>
 
-                      {{-- Toggle (tengah + ada jarak) --}}
+                      {{-- Toggle --}}
                       <label class="switch mt-2">
                         <input type="checkbox" class="toggle-status"
                                data-id="{{ $about->id }}"
@@ -72,7 +71,7 @@
             </table>
           </div>
 
-          {{-- Create New Button at bottom --}}
+          {{-- Create New Button --}}
           <div class="text-center mt-4">
             <a href="{{ route('about.create') }}"
                class="btn text-white px-4"
@@ -87,7 +86,7 @@
   </div>
 </div>
 
-{{-- Custom CSS untuk Toggle --}}
+{{-- Custom CSS Toggle --}}
 <style>
 .switch {
   position: relative;
@@ -113,29 +112,98 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX --}}
+{{-- Script AJAX + SweetAlert --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).on('change', '.toggle-status', function() {
-    let aboutId = $(this).data('id');
+function initToggleStatus(selector, baseUrl) {
+    $(document).on('change', selector, function() {
+        let itemId = $(this).data('id');
+        let checkbox = $(this);
 
-    $.ajax({
-        url: "/adminpanel/about/" + aboutId + "/toggle-status",
-        type: "PATCH",
-        data: {
-            _token: "{{ csrf_token() }}"
-        },
-        success: function(response) {
-            if (response.success) {
-                console.log("Status updated:", response.status);
+        $.ajax({
+            url: baseUrl + itemId + "/toggle-status",
+            type: "PATCH",
+            data: { _token: "{{ csrf_token() }}" },
+            success: function(response) {
+                if (response.success) {
+                    if (response.status) {
+                        $(selector).not(checkbox).prop('checked', false);
+                        checkbox.prop('checked', true);
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Aktif',
+                            text: 'Item berhasil diaktifkan.',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        checkbox.prop('checked', false);
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Nonaktif',
+                            text: 'Item berhasil dinonaktifkan.',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }
+                }
+            },
+            error: function(xhr) {
+                let res = xhr.responseJSON;
+                if (res && res.message) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Perhatian',
+                        text: res.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Gagal update status!'
+                    });
+                }
+                checkbox.prop('checked', !checkbox.prop('checked'));
             }
-        },
-        error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
-        }
+        });
     });
+}
+
+// Inisialisasi untuk About
+$(document).ready(function() {
+    initToggleStatus('.toggle-status', '/adminpanel/about/');
+
+    // SweetAlert untuk delete
+    $(".btn-delete").on("click", function() {
+        let form = $(this).closest(".form-delete");
+
+        Swal.fire({
+            title: "Yakin hapus?",
+            text: "Data ini akan terhapus permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, hapus!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+
+    // SweetAlert sukses setelah delete
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses',
+            text: "{{ session('success') }}",
+            timer: 1500,
+            showConfirmButton: false
+        });
+    @endif
 });
 </script>
-
 @endsection
