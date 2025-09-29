@@ -54,14 +54,14 @@
                           <i class="ti-pencil"></i> Edit
                         </a>
 
-                        {{-- Delete --}}
-                        <form action="{{ route('partners.destroy', $partner->id) }}" method="POST" style="display:inline">
+                        {{-- Delete pakai SweetAlert2 --}}
+                        <form action="{{ route('partners.destroy', $partner->id) }}" method="POST" class="delete-form d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
                                   style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                                  data-name="{{ $partner->name }}">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -123,7 +123,8 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX Toggle --}}
+{{-- SweetAlert2 & AJAX --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).on('change', '.toggle-status', function() {
@@ -139,14 +140,52 @@ $(document).on('change', '.toggle-status', function() {
         },
         success: function(response) {
             if (response.success) {
-                console.log("Status updated:", response.status);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Status Updated',
+                    text: response.status,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
             }
         },
         error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
+            Swal.fire('Error!', 'Gagal update status!', 'error');
         }
     });
 });
+
+// Delete dengan SweetAlert2
+$(document).on('click', '.btn-delete', function(e) {
+    e.preventDefault();
+    let form = $(this).closest("form");
+    let name = $(this).data("name");
+
+    Swal.fire({
+        title: 'Yakin hapus?',
+        text: "Data partner \"" + name + "\" akan dihapus!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, Hapus',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+});
+
+// Flash message sukses (dari session)
+@if(session('success'))
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil',
+    text: "{{ session('success') }}",
+    timer: 2000,
+    showConfirmButton: false
+});
+@endif
 </script>
 @endsection

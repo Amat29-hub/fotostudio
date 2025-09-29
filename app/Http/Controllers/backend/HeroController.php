@@ -72,17 +72,41 @@ class HeroController extends Controller
 
 
     public function toggleStatus($id)
-{
-    $hero = Hero::findOrFail($id);
-    $hero->is_active = !$hero->is_active;
-    $hero->save();
-
-    return response()->json([
-        'success' => true,
-        'status' => $hero->is_active
-    ]);
-}
-
-
+    {
+        $hero = Hero::findOrFail($id);
+    
+        if (!$hero->is_active) {
+            // Aktifkan hero, matikan hero lain
+            Hero::where('is_active', 1)->update(['is_active' => 0]);
+            $hero->is_active = 1;
+            $hero->save();
+    
+            return response()->json([
+                'success' => true,
+                'status' => true
+            ]);
+        } else {
+            // Cek jumlah hero aktif lain
+            $activeCount = Hero::where('is_active', 1)->count();
+    
+            if ($activeCount <= 1) {
+                // minimal 1 harus aktif
+                return response()->json([
+                    'success' => true,
+                    'status' => false,
+                    'message' => 'Minimal harus ada 1 hero yang aktif!'
+                ]);
+            }
+    
+            // Nonaktifkan hero
+            $hero->is_active = 0;
+            $hero->save();
+    
+            return response()->json([
+                'success' => true,
+                'status' => false
+            ]);
+        }
+    }
 
 }

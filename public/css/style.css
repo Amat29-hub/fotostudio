@@ -515,6 +515,28 @@
 }
 
 
+/*** Sejarah ***/
+.sejarah-img {
+    width: 100%;            /* supaya responsif */
+    max-width: 400px;       /* batas maksimal lebar */
+    height: 250px;          /* tinggi tetap (canvas) */
+    object-fit: cover;      /* isi gambar dipotong rapi */
+    border-radius: 10px;    /* sudut agak membulat */
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1); /* opsional, biar ada bayangan */
+    margin-bottom: 15px;    /* jarak antar item */
+}
+
+
+.social-photo {
+    width: 60px;          /* lebar konsisten */
+    height: 60px;         /* tinggi sama dengan lebar */
+    object-fit: cover;    /* potong agar proporsional */
+    border-radius: 50%;   /* biar bulat */
+    border: 2px solid #fff; /* opsional: kasih border putih */
+    flex-shrink: 0;       /* biar nggak mengecil saat flex */
+}
+
+
 
 /*** Footer ***/
 @media (min-width: 992px) {

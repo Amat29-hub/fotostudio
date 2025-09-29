@@ -51,13 +51,12 @@
                         </a>
 
                         {{-- Delete --}}
-                        <form action="{{ route('gallery.destroy', $gallery->id) }}" method="POST" style="display:inline">
+                        <form action="{{ route('gallery.destroy', $gallery->id) }}" method="POST" class="delete-form d-inline">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -119,8 +118,9 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX --}}
+{{-- Script --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
 $(document).on('change', '.toggle-status', function() {
     let galleryId = $(this).data('id');
@@ -133,14 +133,54 @@ $(document).on('change', '.toggle-status', function() {
         },
         success: function(response) {
             if (response.success) {
-                console.log("Status updated:", response.status);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Updated!',
+                    text: 'Status berhasil diperbarui.',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
             }
         },
         error: function(xhr) {
-            alert("Gagal update status!");
+            Swal.fire('Error', 'Gagal update status!', 'error');
             console.error(xhr.responseText);
         }
     });
 });
+
+// SweetAlert untuk delete
+$(document).on('click', '.btn-delete', function(e) {
+    e.preventDefault();
+    let form = $(this).closest('form');
+
+    Swal.fire({
+        title: 'Yakin?',
+        text: "Data akan dihapus permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+});
 </script>
+
+{{-- SweetAlert jika ada session success --}}
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil!',
+    text: "{{ session('success') }}",
+    timer: 2000,
+    showConfirmButton: false
+});
+</script>
+@endif
+
 @endsection

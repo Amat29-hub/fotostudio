@@ -37,6 +37,7 @@
 <script src="{{ asset('assetsbackend/js/template.js') }}"></script>
 <script src="{{ asset('assetsbackend/js/settings.js') }}"></script>
 <script src="{{ asset('assetsbackend/js/todolist.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- endinject -->
 
 </body>

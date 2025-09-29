@@ -18,7 +18,7 @@
                   <th class="text-start border-0">Last Name</th>
                   <th class="text-start border-0">Subject</th>
                   <th class="text-start border-0">Description</th>
-                  <th class="text-start border-0">Options</th>
+                  <th class="text-center border-0">Options</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,23 +39,29 @@
 
                   {{-- Options --}}
                   <td class="text-center py-3">
-                    <div class="d-flex flex-column align-items-center">
-                      <div class="mb-2">
-                        {{-- Detail --}}
-                        <a href="{{ route('contactus.show', $item->id) }}"
-                           class="btn text-white btn-sm px-3"
-                           style="background-color:#0d6efd;">
-                          <i class="ti-eye"></i> Detail
-                        </a>
-                      </div>
+                    {{-- Show --}}
+                    <a href="{{ route('contactus.show', $item->id) }}"
+                       class="btn text-white btn-sm px-3"
+                       style="background-color:#0d6efd;">
+                      <i class="ti-eye"></i> Show
+                    </a>
 
-                      {{-- Toggle --}}
-                      <label class="switch mt-2">
-                        <input type="checkbox" class="toggle-status"
-                               data-id="{{ $item->id }}"
-                               {{ $item->is_active ? 'checked' : '' }}>
-                        <span class="slider round"></span>
-                      </label>
+                    {{-- Delete --}}
+                    <form action="{{ route('contactus.destroy', $item->id) }}" method="POST" class="d-inline form-delete">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-danger btn-sm px-3 btn-delete">
+                            <i class="ti-trash"></i> Delete
+                        </button>
+                    </form>
+
+                    {{-- Status --}}
+                    <div class="mt-2">
+                      @if($item->is_active)
+                        <span class="badge bg-success">Sudah Dilihat</span>
+                      @else
+                        <span class="badge bg-danger">Belum Dilihat</span>
+                      @endif
                     </div>
                   </td>
                 </tr>
@@ -70,56 +76,45 @@
   </div>
 </div>
 
-{{-- Custom CSS untuk Toggle --}}
-<style>
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 26px;
-}
-.switch input {opacity: 0; width: 0; height: 0;}
-.slider {
-  position: absolute; cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #ccc; transition: .4s; border-radius: 34px;
-}
-.slider:before {
-  position: absolute; content: "";
-  height: 20px; width: 20px;
-  left: 3px; bottom: 3px;
-  background-color: white; transition: .4s; border-radius: 50%;
-}
-input:checked + .slider {background-color: #2196F3;}
-input:checked + .slider:before {transform: translateX(24px);}
-.slider.round {border-radius: 34px;}
-.slider.round:before {border-radius: 50%;}
-</style>
-
-{{-- AJAX Toggle --}}
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{{-- SweetAlert Delete Confirmation --}}
 <script>
-$(document).on('change', '.toggle-status', function() {
-    let contactId = $(this).data('id');
-    let status = $(this).is(':checked') ? 1 : 0;
+document.addEventListener("DOMContentLoaded", function() {
+    const deleteButtons = document.querySelectorAll(".btn-delete");
 
-    $.ajax({
-        url: "/adminpanel/contactus/" + contactId + "/toggle-status",
-        type: "PATCH",
-        data: {
-            _token: "{{ csrf_token() }}",
-            is_active: status
-        },
-        success: function(response) {
-            if (response.success) {
-                console.log("Status updated:", response.status);
-            }
-        },
-        error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
-        }
+    deleteButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            let form = this.closest(".form-delete");
+
+            Swal.fire({
+                title: "Yakin hapus?",
+                text: "Data ini akan terhapus permanen!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Ya, hapus!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
     });
 });
 </script>
+
+{{-- SweetAlert Success After Delete --}}
+@if(session('success'))
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: "{{ session('success') }}",
+            showConfirmButton: false,
+            timer: 1500
+        })
+    });
+</script>
+@endif
 @endsection

@@ -51,13 +51,12 @@
                         </a>
 
                         {{-- Delete --}}
-                        <form action="{{ route('sejarah.destroy', $item->id) }}" method="POST" style="display:inline">
+                        <form action="{{ route('sejarah.destroy', $item->id) }}" method="POST" class="d-inline form-delete">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -119,30 +118,98 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX Toggle --}}
+{{-- Script AJAX + SweetAlert --}}
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-$(document).on('change', '.toggle-status', function() {
-    let sejarahId = $(this).data('id');
-    let status = $(this).is(':checked') ? 1 : 0;
+function initToggleStatus(selector, baseUrl) {
+    $(document).on('change', selector, function() {
+        let itemId = $(this).data('id');
+        let checkbox = $(this);
 
-    $.ajax({
-        url: "/adminpanel/sejarah/" + sejarahId + "/toggle-status",
-        type: "PATCH",
-        data: {
-            _token: "{{ csrf_token() }}",
-            is_active: status
-        },
-        success: function(response) {
-            if (response.success) {
-                console.log("Status updated:", response.status);
+        $.ajax({
+            url: baseUrl + itemId + "/toggle-status",
+            type: "PATCH",
+            data: { _token: "{{ csrf_token() }}" },
+            success: function(response) {
+                if (response.success) {
+                    if (response.status) {
+                        $(selector).not(checkbox).prop('checked', false);
+                        checkbox.prop('checked', true);
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Aktif',
+                            text: 'Item berhasil diaktifkan.',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        checkbox.prop('checked', false);
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Nonaktif',
+                            text: 'Item berhasil dinonaktifkan.',
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }
+                }
+            },
+            error: function(xhr) {
+                let res = xhr.responseJSON;
+                if (res && res.message) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Perhatian',
+                        text: res.message
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Gagal update status!'
+                    });
+                }
+                checkbox.prop('checked', !checkbox.prop('checked'));
             }
-        },
-        error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
-        }
+        });
     });
+}
+
+// Inisialisasi untuk Sejarah
+$(document).ready(function() {
+    initToggleStatus('.toggle-status', '/adminpanel/sejarah/');
+
+    // SweetAlert untuk delete
+    $(".btn-delete").on("click", function() {
+        let form = $(this).closest(".form-delete");
+
+        Swal.fire({
+            title: "Yakin hapus?",
+            text: "Data ini akan terhapus permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, hapus!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        });
+    });
+
+    // Alert sukses setelah delete (flash session dari controller)
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Sukses',
+            text: "{{ session('success') }}",
+            timer: 1500,
+            showConfirmButton: false
+        });
+    @endif
 });
 </script>
 @endsection

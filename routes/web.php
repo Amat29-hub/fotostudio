@@ -27,7 +27,7 @@ Route::get('/', [FrontendHomeController::class, 'index'])->name('home');
 Route::get('/about', [FrontendAboutController::class, 'index'])->name('about');
 Route::get('/service', [FrontendServiceController::class, 'index'])->name('service');
 Route::get('/testimonial', [FrontendTestimonialController::class, 'index'])->name('testimonial');
-// Contact Us (Frontend)
+// Contact Us
 Route::get('/contact', [FrontendContactController::class, 'index'])->name('contact');
 Route::post('/contact/store', [FrontendContactController::class, 'store'])->name('contact.store');
 

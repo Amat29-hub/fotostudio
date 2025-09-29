@@ -39,14 +39,16 @@
             </div>
 
             {{-- Buttons --}}
-            <div class="d-flex gap-2">
-              <button type="submit" class="btn text-white px-4" style="background-color:#21BF06;">Tambah</button>
-              <a href="{{ route('tenagakerja.index') }}" class="btn text-white px-4" style="background-color:#0C8CE9;">Kembali</a>
+            <div class="d-flex justify-content-start mt-4">
+              <button type="submit" class="btn btn-success me-2 px-4 py-2" style="background-color:#21BF06; margin-right:30px;">Tambah</button>
+              <a href="{{ route('tenagakerja.index') }}" class="btn btn-primary px-4 py-2" style="background-color:#0C8CE9;">Kembali</a>
             </div>
+
           </form>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 @endsection

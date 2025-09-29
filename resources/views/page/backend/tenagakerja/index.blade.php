@@ -57,13 +57,12 @@
                         </a>
 
                         {{-- Delete --}}
-                        <form action="{{ route('tenagakerja.destroy', $tk->id) }}" method="POST" style="display:inline">
+                        <form action="{{ route('tenagakerja.destroy', $tk->id) }}" method="POST" class="delete-form" style="display:inline">
                           @csrf
                           @method('DELETE')
-                          <button type="submit"
-                                  class="btn text-white btn-sm px-3"
-                                  style="background-color:#DC3545;"
-                                  onclick="return confirm('Yakin hapus data ini?')">
+                          <button type="button"
+                                  class="btn text-white btn-sm px-3 btn-delete"
+                                  style="background-color:#DC3545;">
                             <i class="ti-trash"></i> Delete
                           </button>
                         </form>
@@ -125,9 +124,12 @@ input:checked + .slider:before {transform: translateX(24px);}
 .slider.round:before {border-radius: 50%;}
 </style>
 
-{{-- AJAX Toggle --}}
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
+// Toggle Status pakai SweetAlert
 $(document).on('change', '.toggle-status', function() {
     let tenagaId = $(this).data('id');
     let isActive = $(this).is(':checked') ? 1 : 0;
@@ -141,14 +143,66 @@ $(document).on('change', '.toggle-status', function() {
         },
         success: function(response) {
             if (response.success) {
-                console.log("Status updated:", response.status);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: 'Status berhasil diperbarui',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
             }
         },
-        error: function(xhr) {
-            alert("Gagal update status!");
-            console.error(xhr.responseText);
+        error: function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Gagal update status!'
+            });
+        }
+    });
+});
+
+// Konfirmasi Hapus Data
+$(document).on('click', '.btn-delete', function(e) {
+    e.preventDefault();
+    let form = $(this).closest("form");
+
+    Swal.fire({
+        title: 'Yakin hapus data ini?',
+        text: "Data akan dihapus permanen!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus!',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
         }
     });
 });
 </script>
+
+{{-- Flash Message dari Laravel --}}
+@if(session('success'))
+<script>
+Swal.fire({
+    icon: 'success',
+    title: 'Berhasil!',
+    text: "{{ session('success') }}",
+    timer: 2000,
+    showConfirmButton: false
+});
+</script>
+@endif
+@if(session('error'))
+<script>
+Swal.fire({
+    icon: 'error',
+    title: 'Gagal!',
+    text: "{{ session('error') }}"
+});
+</script>
+@endif
 @endsection
